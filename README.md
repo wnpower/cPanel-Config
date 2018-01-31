@@ -1,5 +1,3 @@
-# cPanel-config
-
 <h1>Script para configuraci&oacute;n de cPanel</h1>
 <br />Este script instala y configura cPanel seg&uacute;n las buenas pr&aacute;cticas recomendadas por WNPower<br /><br />Modo de uso: bash install_cpanel.sh<br /><br /><strong>NOTA: Instalar s&oacute;lo en CentOS 7 Minimal<br /><br /></strong>Tareas que realiza:<br />
 <ul>
