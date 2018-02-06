@@ -7,7 +7,7 @@ echo "██║    ██║████╗  ██║██╔══██╗�
 echo "██║ █╗ ██║██╔██╗ ██║██████╔╝██║   ██║██║ █╗ ██║█████╗  ██████╔╝   ██║     ██║   ██║██╔████╔██║"
 echo "██║███╗██║██║╚██╗██║██╔═══╝ ██║   ██║██║███╗██║██╔══╝  ██╔══██╗   ██║     ██║   ██║██║╚██╔╝██║"
 echo "╚███╔███╔╝██║ ╚████║██║     ╚██████╔╝╚███╔███╔╝███████╗██║  ██║██╗╚██████╗╚██████╔╝██║ ╚═╝ ██║"
-echo "╚══╝╚══╝ ╚═╝  ╚═══╝╚═╝      ╚═════╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝"
+echo " ╚══╝╚══╝ ╚═╝  ╚═══╝╚═╝      ╚═════╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝"
 
 echo ""
 echo "             ####################### cPanel Configurator #######################              "
@@ -272,7 +272,7 @@ echo "Deshabilitando Eximstats..."
 service exim restart
 
 echo "Instalando paquetes PHP EasyApache 4..."
-yum install -y ea-php55-php-curl ea-php55-php-fileinfo ea-php55-php-fpm ea-php55-php-gd ea-php55-php-iconv ea-php55-php-ioncube ea-php55-php-intl ea-php55-php-mbstring ea-php55-php-mcrypt ea-php55-php-pdo ea-php55-php-soap ea-php55-php-xmlrpc ea-php55-php-zip ea-php56-php-curl ea-php56-php-fileinfo ea-php56-php-fpm ea-php56-php-gd ea-php56-php-iconv ea-php56-php-ioncube ea-php56-php-intl ea-php56-php-mbstring ea-php56-php-mcrypt ea-php56-php-pdo ea-php56-php-soap ea-php56-php-xmlrpc ea-php56-php-zip ea-php56-php-opcache ea-php70-php-curl ea-php70-php-fileinfo ea-php70-php-fpm ea-php70-php-gd ea-php70-php-iconv ea-php70-php-intl ea-php70-php-mbstring ea-php70-php-mcrypt ea-php70-php-pdo ea-php70-php-soap ea-php70-php-xmlrpc ea-php70-php-zip ea-php70-php-ioncube6 ea-php70-php-opcache ea-php55-php-mysqlnd ea-php56-php-mysqlnd ea-php70-php-mysqlnd --skip-broken
+yum install -y ea-php55-php-curl ea-php55-php-fileinfo ea-php55-php-fpm ea-php55-php-gd ea-php55-php-iconv ea-php55-php-ioncube ea-php55-php-intl ea-php55-php-mbstring ea-php55-php-mcrypt ea-php55-php-pdo ea-php55-php-soap ea-php55-php-xmlrpc ea-php55-php-zip ea-php56-php-curl ea-php56-php-fileinfo ea-php56-php-fpm ea-php56-php-gd ea-php56-php-iconv ea-php56-php-ioncube ea-php56-php-intl ea-php56-php-mbstring ea-php56-php-mcrypt ea-php56-php-pdo ea-php56-php-soap ea-php56-php-xmlrpc ea-php56-php-zip ea-php56-php-opcache ea-php70-php-curl ea-php70-php-fileinfo ea-php70-php-fpm ea-php70-php-gd ea-php70-php-iconv ea-php70-php-intl ea-php70-php-mbstring ea-php70-php-mcrypt ea-php70-php-pdo ea-php70-php-soap ea-php70-php-xmlrpc ea-php70-php-zip ea-php70-php-ioncube6 ea-php70-php-opcache ea-php55-php-mysqlnd ea-php56-php-mysqlnd ea-php70-php-mysqlnd ea-apache24-mod_proxy_fcgi ea-php55-php-fpm ea-php56-php-fpm ea-php70-php-fpm --skip-broken
 
 echo "Configurando PHP EasyApache 4..."
 find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^memory_limit.*/memory_limit = 128M/g'
@@ -296,6 +296,12 @@ find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^error_r
 echo "Configurando valores default PHP-FPM..."
 mkdir -p /var/cpanel/ApachePHPFPM
 grep "pm_max_requests" /var/cpanel/ApachePHPFPM/system_pool_defaults.yaml > /dev/null 2>&1 || echo "pm_max_requests: 40" >> /var/cpanel/ApachePHPFPM/system_pool_defaults.yaml
+
+echo "Configurando Handlers..."
+whmapi1 php_set_handler version=ea-php55 handler=cgi
+whmapi1 php_set_handler version=ea-php56 handler=cgi
+whmapi1 php_set_handler version=ea-php70 handler=cgi
+whmapi1 php_set_system_default_version version=ea-php70
 
 echo "Configurando ModSecurity..."
 URL="https%3A%2F%2Fwaf.comodo.com%2Fdoc%2Fmeta_comodo_apache.yaml"
