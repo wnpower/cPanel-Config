@@ -206,23 +206,25 @@ sed -i 's/MaxClientsPerIP 8/MaxClientsPerIP 30/' /etc/pure-ftpd.conf
 service pure-ftpd restart
 
 echo "Configurando Tweak Settings..."
-sed -i 's/^allowremotedomains=.*/allowremotedomains=1/' /var/cpanel/cpanel.config
-sed -i 's/^allowunregistereddomains=.*/allowunregistereddomains=1/' /var/cpanel/cpanel.config
-sed -i 's/^chkservd_check_interval=.*/chkservd_check_interval=120/' /var/cpanel/cpanel.config
-sed -i 's/^defaultmailaction=.*/defaultmailaction=fail/' /var/cpanel/cpanel.config
-sed -i 's/^email_send_limits_max_defer_fail_percentage=.*/email_send_limits_max_defer_fail_percentage=25/' /var/cpanel/cpanel.config
-sed -i 's/^email_send_limits_min_defer_fail_to_trigger_protection=.*/email_send_limits_min_defer_fail_to_trigger_protection=15/' /var/cpanel/cpanel.config
-sed -i 's/^maxemailsperhour=.*/maxemailsperhour=200/' /var/cpanel/cpanel.config
-sed -i 's/^minpwstrength=.*/minpwstrength=70/' /var/cpanel/cpanel.config
-sed -i 's/^permit_unregistered_apps_as_root=.*/permit_unregistered_apps_as_root=1/' /var/cpanel/cpanel.config
+whmapi1 set_tweaksetting key=allowremotedomains value=1
+whmapi1 set_tweaksetting key=allowunregistereddomains value=1
+whmapi1 set_tweaksetting key=chkservd_check_interval value=120
+whmapi1 set_tweaksetting key=defaultmailaction value=fail
+whmapi1 set_tweaksetting key=email_send_limits_max_defer_fail_percentage value=25
+whmapi1 set_tweaksetting key=email_send_limits_min_defer_fail_to_trigger_protection value=15
+whmapi1 set_tweaksetting key=maxemailsperhour value=200
+whmapi1 set_tweaksetting key=permit_unregistered_apps_as_root value=1
+whmapi1 set_tweaksetting key=requiressl value=0
+whmapi1 set_tweaksetting key=skipanalog value=1
+whmapi1 set_tweaksetting key=skipboxtrapper value=1
+whmapi1 set_tweaksetting key=skipwebalizer value=1
+whmapi1 set_tweaksetting key=smtpmailgidonly value=0
+whmapi1 set_tweaksetting key=eximmailtrap value=1
+whmapi1 set_tweaksetting key=use_information_schema value=0
+whmapi1 set_tweaksetting key=cookieipvalidation value=disabled
+
 sed -i 's/^phpopenbasedirhome=.*/phpopenbasedirhome=1/' /var/cpanel/cpanel.config
-sed -i 's/^requiressl=.*/requiressl=0/' /var/cpanel/cpanel.config
-sed -i 's/^skipanalog=.*/skipanalog=1/' /var/cpanel/cpanel.config
-sed -i 's/^skipboxtrapper=.*/skipboxtrapper=1/' /var/cpanel/cpanel.config
-sed -i 's/^skipwebalizer=.*/skipwebalizer=1/' /var/cpanel/cpanel.config
-sed -i 's/^smtpmailgidonly=.*/smtpmailgidonly=0/' /var/cpanel/cpanel.config
-sed -i 's/^eximmailtrap=.*/eximmailtrap=1/' /var/cpanel/cpanel.config
-sed -i 's/^use_information_schema=.*/use_information_schema=0/' /var/cpanel/cpanel.config
+sed -i 's/^minpwstrength=.*/minpwstrength=70/' /var/cpanel/cpanel.config
 
 /usr/local/cpanel/etc/init/startcpsrvd
 
@@ -272,7 +274,7 @@ echo "Deshabilitando Eximstats..."
 service exim restart
 
 echo "Instalando paquetes PHP EasyApache 4..."
-yum install -y ea-php55-php-curl ea-php55-php-fileinfo ea-php55-php-fpm ea-php55-php-gd ea-php55-php-iconv ea-php55-php-ioncube ea-php55-php-intl ea-php55-php-mbstring ea-php55-php-mcrypt ea-php55-php-pdo ea-php55-php-soap ea-php55-php-xmlrpc ea-php55-php-zip ea-php56-php-curl ea-php56-php-fileinfo ea-php56-php-fpm ea-php56-php-gd ea-php56-php-iconv ea-php56-php-ioncube ea-php56-php-intl ea-php56-php-mbstring ea-php56-php-mcrypt ea-php56-php-pdo ea-php56-php-soap ea-php56-php-xmlrpc ea-php56-php-zip ea-php56-php-opcache ea-php70-php-curl ea-php70-php-fileinfo ea-php70-php-fpm ea-php70-php-gd ea-php70-php-iconv ea-php70-php-intl ea-php70-php-mbstring ea-php70-php-mcrypt ea-php70-php-pdo ea-php70-php-soap ea-php70-php-xmlrpc ea-php70-php-zip ea-php70-php-ioncube6 ea-php70-php-opcache ea-php55-php-mysqlnd ea-php56-php-mysqlnd ea-php70-php-mysqlnd ea-apache24-mod_proxy_fcgi ea-php55-php-fpm ea-php56-php-fpm ea-php70-php-fpm --skip-broken
+yum install -y ea-php55-php-curl ea-php55-php-fileinfo ea-php55-php-fpm ea-php55-php-gd ea-php55-php-iconv ea-php55-php-ioncube ea-php55-php-intl ea-php55-php-mbstring ea-php55-php-mcrypt ea-php55-php-pdo ea-php55-php-soap ea-php55-php-xmlrpc ea-php55-php-zip ea-php56-php-curl ea-php56-php-fileinfo ea-php56-php-fpm ea-php56-php-gd ea-php56-php-iconv ea-php56-php-ioncube ea-php56-php-intl ea-php56-php-mbstring ea-php56-php-mcrypt ea-php56-php-pdo ea-php56-php-soap ea-php56-php-xmlrpc ea-php56-php-zip ea-php56-php-opcache ea-php70-php-curl ea-php70-php-fileinfo ea-php70-php-fpm ea-php70-php-gd ea-php70-php-iconv ea-php70-php-intl ea-php70-php-mbstring ea-php70-php-mcrypt ea-php70-php-pdo ea-php70-php-soap ea-php70-php-xmlrpc ea-php70-php-zip ea-php70-php-ioncube6 ea-php70-php-opcache ea-php55-php-mysqlnd ea-php56-php-mysqlnd ea-php70-php-mysqlnd ea-apache24-mod_proxy_fcgi ea-php55-php-fpm ea-php56-php-fpm ea-php70-php-fpm libcurl-devel openssl-devel ea-php71 ea-php71-pear ea-php71-php-cli ea-php71-php-common ea-php71-php-curl ea-php71-php-devel ea-php71-php-exif ea-php71-php-fileinfo ea-php71-php-fpm ea-php71-php-ftp ea-php71-php-gd ea-php71-php-iconv ea-php71-php-intl ea-php71-php-litespeed ea-php71-php-mbstring ea-php71-php-mcrypt ea-php71-php-mysqlnd ea-php71-php-odbc ea-php71-php-opcache ea-php71-php-pdo ea-php71-php-posix ea-php71-php-soap ea-php71-php-xml ea-php71-php-zip ea-php71-runtime ea-php72 ea-php72-pear ea-php72-php-cli ea-php72-php-common ea-php72-php-curl ea-php72-php-devel ea-php72-php-exif ea-php72-php-fileinfo ea-php72-php-fpm ea-php72-php-ftp ea-php72-php-gd ea-php72-php-iconv ea-php72-php-intl ea-php72-php-litespeed ea-php72-php-mbstring ea-php72-php-mysqlnd ea-php72-php-opcache ea-php72-php-pdo ea-php72-php-posix ea-php72-php-soap ea-php72-php-xml ea-php72-php-zip ea-php72-runtime unixODBC --skip-broken
 
 echo "Configurando PHP EasyApache 4..."
 find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^memory_limit.*/memory_limit = 128M/g'
@@ -301,6 +303,8 @@ echo "Configurando Handlers..."
 whmapi1 php_set_handler version=ea-php55 handler=cgi
 whmapi1 php_set_handler version=ea-php56 handler=cgi
 whmapi1 php_set_handler version=ea-php70 handler=cgi
+whmapi1 php_set_handler version=ea-php71 handler=cgi
+whmapi1 php_set_handler version=ea-php72 handler=cgi
 whmapi1 php_set_system_default_version version=ea-php70
 
 echo "Configurando ModSecurity..."
