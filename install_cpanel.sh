@@ -294,6 +294,7 @@ find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^max_inp
 find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^;default_charset = "UTF-8"/default_charset = "UTF-8"/g'
 find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^default_charset.*/default_charset = "UTF-8"/g'
 
+find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^display_errors.*/display_errors = "On"/g'
 find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^error_reporting.*/error_reporting = "E_ALL \& \~E_DEPRECATED \& \~E_STRICT"/g'
 
 
