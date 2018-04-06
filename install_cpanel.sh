@@ -78,6 +78,16 @@ else
 fi
 echo "####### FIN INSTALANDO CPANEL #######"
 
+echo "####### VERIFICANDO LICENCIA #######" 
+
+ISLICENCED=$(/usr/local/cpanel/cpkeyclt 2>&1 | grep "Update succeeded" > /dev/null && echo OK || echo FAIL)
+if [ "$ISLICENCED" = "FAIL" ]; then
+	echo "Existe un problema con la licencia, verificala y luego ejecutá este script de nuevo"
+	exit 0
+fi
+
+echo "####### FIN VERIFICANDO LICENCIA #######"
+
 echo "####### CONFIGURANDO CSF #######"
 if [ ! -d /etc/csf ]; then
         echo "csf no detectado, descargando!"
