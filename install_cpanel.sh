@@ -32,6 +32,9 @@ iptables-save > /root/firewall.rules
 systemctl stop firewalld.service
 systemctl disable firewalld.service
 
+systemctl stop NetworkManager.service
+systemctl disable NetworkManager.service
+
 echo "######### CONFIGURANDO DNS Y RED ########"
 RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
 ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
