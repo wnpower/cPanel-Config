@@ -400,7 +400,7 @@ echo "Seteando fecha del BIOS..."
 hwclock -r
 
 echo "Deshabilitando cron de mlocate..."
-chmod -x /etc/cron.daily/mlocate.cron
+chmod -x /etc/cron.daily/mlocate* 2>&1 > /dev/null
 
 history -c
 echo "" > /root/.bash_history
