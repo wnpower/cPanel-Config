@@ -1,6 +1,7 @@
 #!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+HOSTNAME=$(hostname -f)
 
 echo "██╗    ██╗███╗   ██╗██████╗  ██████╗ ██╗    ██╗███████╗██████╗     ██████╗ ██████╗ ███╗   ███╗"
 echo "██║    ██║████╗  ██║██╔══██╗██╔═══██╗██║    ██║██╔════╝██╔══██╗   ██╔════╝██╔═══██╗████╗ ████║"
@@ -401,6 +402,13 @@ hwclock -r
 
 echo "Deshabilitando cron de mlocate..."
 chmod -x /etc/cron.daily/mlocate* 2>&1 > /dev/null
+
+if [ -f /proc/user_beancounters ]; then
+	echo "OpenVZ detectado, implementando parche hostname..."
+	echo "/usr/bin/hostnamectl set-hostname $HOSTNAME" >> /etc/rc.d/rc.local
+	echo "/bin/systemctl restart exim.service" >> /etc/rc.d/rc.local
+	chmod +x /etc/rc.d/rc.local
+fi
 
 history -c
 echo "" > /root/.bash_history
