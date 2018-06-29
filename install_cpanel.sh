@@ -27,6 +27,9 @@ echo "####### CONFIGURANDO CENTOS #######"
 wget https://raw.githubusercontent.com/wnpower/Linux-Config/master/configure_centos.sh && bash configure_centos.sh
 
 echo "####### PRE-CONFIGURACION CPANEL ##########"
+echo "Desactivando yum-cron..."
+yum erase yum-cron -y
+
 systemctl stop NetworkManager.service
 systemctl disable NetworkManager.service
 
