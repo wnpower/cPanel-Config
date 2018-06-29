@@ -23,16 +23,10 @@ fi
 echo "Este script instala y pre-configura cPanel (CTRL + C para cancelar)"
 sleep 10
 
-echo "####### PRE-CONFIGURACION CPANEL ##########"
-yum update -y
-yum groupinstall "Base" -y
-yum install screen -y
-sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/sysconfig/selinux
-/usr/sbin/setenforce 0
-iptables-save > /root/firewall.rules
-systemctl stop firewalld.service
-systemctl disable firewalld.service
+echo "####### CONFIGURANDO CENTOS #######"
+wget https://raw.githubusercontent.com/wnpower/Linux-Config/master/configure_centos.sh && bash configure_centos.sh
 
+echo "####### PRE-CONFIGURACION CPANEL ##########"
 systemctl stop NetworkManager.service
 systemctl disable NetworkManager.service
 
@@ -40,7 +34,6 @@ echo "######### CONFIGURANDO DNS Y RED ########"
 RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
 ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
 
-sed -i '/^PEERDNS=.*/d' $ETHCFG
 sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG
 sed -i '/^DNS1=.*/d' $ETHCFG
 sed -i '/^DNS2=.*/d' $ETHCFG
@@ -50,9 +43,6 @@ echo "PEERDNS=no" >> $ETHCFG
 echo "NM_CONTROLLED=no" >> $ETHCFG
 echo "DNS1=127.0.0.1" >> $ETHCFG
 echo "DNS2=8.8.8.8" >> $ETHCFG
-
-systemctl stop NetworkManager.service
-systemctl disable NetworkManager.service
 
 echo "Reescribiendo /etc/resolv.conf..."
 
@@ -66,12 +56,6 @@ echo "nameserver 8.26.56.26" >> /etc/resolv.conf # Comodo
 echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
-
-
-echo "######### CONFIGURANDO SSH ########"
-sed -i 's/^X11Forwarding.*/X11Forwarding no/' /etc/ssh/sshd_config
-sed -i 's/#UseDNS.*/UseDNS no/' /etc/ssh/sshd_config
-echo "######### FIN CONFIGURANDO SSH ########"
 
 echo "####### INSTALANDO CPANEL #######"
 if [ -d /usr/local/cpanel ]; then
