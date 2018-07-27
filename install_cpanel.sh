@@ -399,6 +399,15 @@ if [ -f /proc/user_beancounters ]; then
 	chmod +x /etc/rc.d/rc.local
 fi
 
+echo "Configurando AutoSSL..."
+whmapi1 set_autossl_metadata_key key=clobber_externally_signed value=1
+whmapi1 set_autossl_metadata_key key=notify_autossl_expiry value=0
+whmapi1 set_autossl_metadata_key key=notify_autossl_expiry_coverage value=0
+whmapi1 set_autossl_metadata_key key=notify_autossl_renewal value=0
+whmapi1 set_autossl_metadata_key key=notify_autossl_renewal_coverage value=0
+whmapi1 set_autossl_metadata_key key=notify_autossl_renewal_coverage_reduced value=0
+whmapi1 set_autossl_metadata_key key=notify_autossl_renewal_uncovered_domains value=0
+
 history -c
 echo "" > /root/.bash_history
 
