@@ -273,11 +273,6 @@ sed -i 's/^allowweakciphers=.*/allowweakciphers=1/' /etc/exim.conf.localopts
 sed -i 's/^per_domain_mailips=.*/per_domain_mailips=1/' /etc/exim.conf.localopts
 /scripts/buildeximconf
 
-echo "Deshabilitando Eximstats..."
-/usr/local/cpanel/libexec/tailwatchd --disable=Cpanel::TailWatch::Eximstats
-
-service exim restart
-
 echo "Instalando paquetes PHP EasyApache 4..."
 yum install -y ea-php55-php-curl ea-php55-php-fileinfo ea-php55-php-fpm ea-php55-php-gd ea-php55-php-iconv ea-php55-php-ioncube ea-php55-php-intl ea-php55-php-mbstring ea-php55-php-mcrypt ea-php55-php-pdo ea-php55-php-soap ea-php55-php-xmlrpc ea-php55-php-zip ea-php56-php-curl ea-php56-php-fileinfo ea-php56-php-fpm ea-php56-php-gd ea-php56-php-iconv ea-php56-php-ioncube ea-php56-php-intl ea-php56-php-mbstring ea-php56-php-mcrypt ea-php56-php-pdo ea-php56-php-soap ea-php56-php-xmlrpc ea-php56-php-zip ea-php56-php-opcache ea-php70-php-curl ea-php70-php-fileinfo ea-php70-php-fpm ea-php70-php-gd ea-php70-php-iconv ea-php70-php-intl ea-php70-php-mbstring ea-php70-php-mcrypt ea-php70-php-pdo ea-php70-php-soap ea-php70-php-xmlrpc ea-php70-php-zip ea-php70-php-ioncube6 ea-php70-php-opcache ea-php55-php-mysqlnd ea-php56-php-mysqlnd ea-php70-php-mysqlnd ea-apache24-mod_proxy_fcgi ea-php55-php-fpm ea-php56-php-fpm ea-php70-php-fpm libcurl-devel openssl-devel ea-php71 ea-php71-pear ea-php71-php-cli ea-php71-php-common ea-php71-php-curl ea-php71-php-devel ea-php71-php-exif ea-php71-php-fileinfo ea-php71-php-fpm ea-php71-php-ftp ea-php71-php-gd ea-php71-php-iconv ea-php71-php-intl ea-php71-php-litespeed ea-php71-php-mbstring ea-php71-php-mcrypt ea-php71-php-mysqlnd ea-php71-php-odbc ea-php71-php-opcache ea-php71-php-pdo ea-php71-php-posix ea-php71-php-soap ea-php71-php-xml ea-php71-php-zip ea-php71-runtime ea-php72 ea-php72-pear ea-php72-php-cli ea-php72-php-common ea-php72-php-curl ea-php72-php-devel ea-php72-php-exif ea-php72-php-fileinfo ea-php72-php-fpm ea-php72-php-ftp ea-php72-php-gd ea-php72-php-iconv ea-php72-php-intl ea-php72-php-litespeed ea-php72-php-mbstring ea-php72-php-mysqlnd ea-php72-php-opcache ea-php72-php-pdo ea-php72-php-posix ea-php72-php-soap ea-php72-php-xml ea-php72-php-zip ea-php72-runtime unixODBC --skip-broken
 
