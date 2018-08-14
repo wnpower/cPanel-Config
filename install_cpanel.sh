@@ -227,6 +227,7 @@ whmapi1 set_tweaksetting key=cookieipvalidation value=disabled
 whmapi1 set_tweaksetting key=notify_expiring_certificates value=0
 whmapi1 set_tweaksetting key=cpaddons_notify_owner value=0
 whmapi1 set_tweaksetting key=cpaddons_notify_root value=0
+whmapi1 set_tweaksetting key=enable_piped_logs value=0
 
 sed -i 's/^phpopenbasedirhome=.*/phpopenbasedirhome=1/' /var/cpanel/cpanel.config
 sed -i 's/^minpwstrength=.*/minpwstrength=70/' /var/cpanel/cpanel.config
