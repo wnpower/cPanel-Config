@@ -227,7 +227,10 @@ whmapi1 set_tweaksetting key=cookieipvalidation value=disabled
 whmapi1 set_tweaksetting key=notify_expiring_certificates value=0
 whmapi1 set_tweaksetting key=cpaddons_notify_owner value=0
 whmapi1 set_tweaksetting key=cpaddons_notify_root value=0
-whmapi1 set_tweaksetting key=enable_piped_logs value=0
+whmapi1 set_tweaksetting key=enable_piped_logs value=1
+whmapi1 set_tweaksetting key=email_outbound_spam_detect_action value=block
+whmapi1 set_tweaksetting key=email_outbound_spam_detect_enable value=1
+whmapi1 set_tweaksetting key=email_outbound_spam_detect_threshold value=500
 
 sed -i 's/^phpopenbasedirhome=.*/phpopenbasedirhome=1/' /var/cpanel/cpanel.config
 sed -i 's/^minpwstrength=.*/minpwstrength=70/' /var/cpanel/cpanel.config
@@ -367,9 +370,9 @@ sed  -i '/\[mysqld\]/a # WNPower pre-configured values' /etc/my.cnf
 service mysql restart
 
 echo "Configurando feature disabled..."
-whmapi1 update_featurelist featurelist=disabled api_shell=0 agora=0 analog=0 boxtrapper=0 enduserlve=0 traceaddy=0 emailtrace=0 modules-php-pear=0 modules-perl=0 modules-ruby=0 pgp=0 phppgadmin=0 postgres=0 ror=0 ssh=0 serverstatus=0 webalizer=0 clamavconnector_scan=0
+whmapi1 update_featurelist featurelist=disabled api_shell=0 agora=0 analog=0 boxtrapper=0 enduserlve=0 traceaddy=0 modules-php-pear=0 modules-perl=0 modules-ruby=0 pgp=0 phppgadmin=0 postgres=0 ror=0 ssh=0 serverstatus=0 webalizer=0 clamavconnector_scan=0
 echo "Configurando feature default..."
-whmapi1 update_featurelist featurelist=default modsecurity=1 zoneedit=1
+whmapi1 update_featurelist featurelist=default modsecurity=1 zoneedit=1 emailtrace=1
 echo "Creando paquete default..."
 whmapi1 addpkg name=default featurelist=default quota=unlimited cgi=0 frontpage=0 language=es maxftp=20 maxsql=20 maxpop=unlimited maxlists=0 maxsub=30 maxpark=30 maxaddon=0 hasshell=0 bwlimit=unlimited MAX_EMAIL_PER_HOUR=300 MAX_DEFER_FAIL_PERCENTAGE=30
 
