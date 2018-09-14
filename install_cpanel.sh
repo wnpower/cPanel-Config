@@ -2,6 +2,9 @@
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 HOSTNAME=$(hostname -f)
+PASSV_PORT="50000:50100";
+PASSV_MIN=$(echo $PASSV_PORT | cut -d':' -f1)
+PASSV_MAX=$(echo $PASSV_PORT | cut -d':' -f2)
 
 echo "██╗    ██╗███╗   ██╗██████╗  ██████╗ ██╗    ██╗███████╗██████╗     ██████╗ ██████╗ ███╗   ███╗"
 echo "██║    ██║████╗  ██║██╔══██╗██╔═══██╗██║    ██║██╔════╝██╔══██╗   ██╔════╝██╔═══██╗████╗ ████║"
@@ -145,6 +148,10 @@ sed -i 's/^PT_USERTIME = .*/PT_USERTIME = "0"/g' /etc/csf/csf.conf
 sed -i 's/^PT_USERPROC = .*/PT_USERPROC = "0"/g' /etc/csf/csf.conf
 sed -i 's/^PT_USERRSS = .*/PT_USERRSS = "0"/g' /etc/csf/csf.conf
 
+echo "Activando rango pasivo FTP..."
+CURR_CSF_IN=$(grep "^TCP_IN" /etc/csf/csf.conf | cut -d'=' -f2 | sed 's/\ //g' | sed 's/\"//g' | sed "s/,$PASSV_PORT,/,/g" | sed "s/,$PASSV_PORT//g" | sed "s/$PASSV_PORT,//g" | sed "s/,,//g")
+sed -i "s/^TCP_IN.*/TCP_IN = \"$CURR_CSF_IN,$PASSV_PORT\"/" /etc/csf/csf.conf
+
 echo "Habilitando listas negras..."
 sed -i '/^#SPAMDROP/s/^#//' /etc/csf/csf.blocklists
 sed -i '/^#SPAMEDROP/s/^#//' /etc/csf/csf.blocklists
@@ -201,11 +208,11 @@ sed -i '/^NS3\ .*/d' /etc/wwwacct.conf
 echo "NS ns1.$HOSTNAME_LONG" >> /etc/wwwacct.conf
 echo "NS2 ns2.$HOSTNAME_LONG" >> /etc/wwwacct.conf
 
-echo "Subiendo conexiones FTP por IP..."
-sed -i 's/MaxClientsPerIP: 8/MaxClientsPerIP: 30/' /var/cpanel/conf/pureftpd/main
-sed -i "s/RootPassLogins:.*/RootPassLogins: 'no'/" /var/cpanel/conf/pureftpd/main
-sed -i 's/MaxClientsPerIP 8/MaxClientsPerIP 30/' /etc/pure-ftpd.conf
-service pure-ftpd restart
+echo "Configurando FTP..."
+echo "MaxClientsPerIP: 30" >> /var/cpanel/conf/pureftpd/local
+echo "RootPassLogins: 'no'" >> /var/cpanel/conf/pureftpd/local
+echo "PassivePortRange: $PASSV_MIN $PASSV_MAX" >> /var/cpanel/conf/pureftpd/local
+/usr/local/cpanel/scripts/setupftpserver pure-ftpd --force
 
 echo "Configurando Tweak Settings..."
 whmapi1 set_tweaksetting key=allowremotedomains value=1
