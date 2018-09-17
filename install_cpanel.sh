@@ -272,6 +272,9 @@ curl -sk "https://127.0.0.1:2087/$SESS_TOKEN/scripts2/save_apache_mem_limits" --
 
 service httpd restart
 
+# DOVECOT
+curl -sk "https://127.0.0.1:2087/$SESS_TOKEN/scripts2/savedovecotsetup" --cookie $CWD/wpwhmcookie.txt --data 'protocols_enabled_imap=on&protocols_enabled_pop3=on&ipv6=on&enable_plaintext_auth=yes&ssl_cipher_list=ECDHE-ECDSA-AES256-GCM-SHA384%3AECDHE-RSA-AES256-GCM-SHA384%3AECDHE-ECDSA-CHACHA20-POLY1305%3AECDHE-RSA-CHACHA20-POLY1305%3AECDHE-ECDSA-AES128-GCM-SHA256%3AECDHE-RSA-AES128-GCM-SHA256%3AECDHE-ECDSA-AES256-SHA384%3AECDHE-RSA-AES256-SHA384%3AECDHE-ECDSA-AES128-SHA256%3AECDHE-RSA-AES128-SHA256&ssl_protocols=TLSv1+TLSv1.1+TLSv1.2&max_mail_processes=512&mail_process_size=512&protocol_imap.mail_max_userip_connections=20&protocol_imap.imap_idle_notify_interval=24&protocol_pop3.mail_max_userip_connections=3&login_processes_count=2&login_max_processes_count=50&login_process_size=128&auth_cache_size=1M&auth_cache_ttl=3600&auth_cache_negative_ttl=3600&login_process_per_connection=no&config_vsz_limit=2048&mailbox_idle_check_interval=30&mdbox_rotate_size=10M&mdbox_rotate_interval=0&incoming_reached_quota=bounce&lmtp_process_min_avail=0&lmtp_process_limit=500&lmtp_user_concurrency_limit=4'
+
 # REMOVE COOKIE
 rm -f $CWD/wpwhmcookie.txt
 
