@@ -320,7 +320,11 @@ whmapi1 php_set_handler version=ea-php56 handler=cgi
 whmapi1 php_set_handler version=ea-php70 handler=cgi
 whmapi1 php_set_handler version=ea-php71 handler=cgi
 whmapi1 php_set_handler version=ea-php72 handler=cgi
-whmapi1 php_set_system_default_version version=ea-php70
+whmapi1 php_set_system_default_version version=ea-php72
+
+echo "Configurando PHP-FPM..."
+whmapi1 php_set_default_accounts_to_fpm default_accounts_to_fpm=1
+whmapi1 convert_all_domains_to_fpm
 
 echo "Configurando ModSecurity..."
 URL="https%3A%2F%2Fwaf.comodo.com%2Fdoc%2Fmeta_comodo_apache.yaml"
