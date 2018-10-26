@@ -238,6 +238,7 @@ whmapi1 set_tweaksetting key=enable_piped_logs value=1
 whmapi1 set_tweaksetting key=email_outbound_spam_detect_action value=block
 whmapi1 set_tweaksetting key=email_outbound_spam_detect_enable value=1
 whmapi1 set_tweaksetting key=email_outbound_spam_detect_threshold value=190
+whmapi1 set_tweaksetting key=skipspambox value=0
 
 sed -i 's/^phpopenbasedirhome=.*/phpopenbasedirhome=1/' /var/cpanel/cpanel.config
 sed -i 's/^minpwstrength=.*/minpwstrength=70/' /var/cpanel/cpanel.config
