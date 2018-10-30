@@ -5,6 +5,7 @@ HOSTNAME=$(hostname -f)
 PASSV_PORT="50000:50100";
 PASSV_MIN=$(echo $PASSV_PORT | cut -d':' -f1)
 PASSV_MAX=$(echo $PASSV_PORT | cut -d':' -f2)
+ISVPS=$(((dmidecode -t system 2>/dev/null | grep "Manufacturer" | grep -i 'VMware\|KVM\|Bochs\|Virtual\|HVM' > /dev/null) || [ -f /proc/vz/veinfo ]) && echo "SI" || echo "NO")
 
 echo "██╗    ██╗███╗   ██╗██████╗  ██████╗ ██╗    ██╗███████╗██████╗     ██████╗ ██████╗ ███╗   ███╗"
 echo "██║    ██║████╗  ██║██╔══██╗██╔═══██╗██║    ██║██╔════╝██╔══██╗   ██╔════╝██╔═══██╗████╗ ████║"
@@ -327,42 +328,44 @@ echo "Configurando PHP-FPM..."
 whmapi1 php_set_default_accounts_to_fpm default_accounts_to_fpm=1
 whmapi1 convert_all_domains_to_fpm
 
-echo "Configurando ModSecurity..."
-URL="https%3A%2F%2Fwaf.comodo.com%2Fdoc%2Fmeta_comodo_apache.yaml"
-whmapi1 modsec_add_vendor url=$URL
+if [ $ISVPS = "NO" ]; then
+	echo "Configurando ModSecurity..."
+	URL="https%3A%2F%2Fwaf.comodo.com%2Fdoc%2Fmeta_comodo_apache.yaml"
+	whmapi1 modsec_add_vendor url=$URL
                 
-MODSEC_DISABLE_CONF=("00_Init_Initialization.conf" "10_Bruteforce_Bruteforce.conf" "12_HTTP_HTTPDoS.conf")
-for CONF in "${MODSEC_DISABLE_CONF[@]}"
-do
-	echo "Deshabilitando conf $CONF..."
-	whmapi1 modsec_make_config_inactive config=modsec_vendor_configs%2Fcomodo_apache%2F$CONF
-done
-whmapi1 modsec_enable_vendor vendor_id=comodo_apache
+	MODSEC_DISABLE_CONF=("00_Init_Initialization.conf" "10_Bruteforce_Bruteforce.conf" "12_HTTP_HTTPDoS.conf")
+	for CONF in "${MODSEC_DISABLE_CONF[@]}"
+	do
+		echo "Deshabilitando conf $CONF..."
+		whmapi1 modsec_make_config_inactive config=modsec_vendor_configs%2Fcomodo_apache%2F$CONF
+	done
+	whmapi1 modsec_enable_vendor vendor_id=comodo_apache
 
-function disable_rule {
-        whmapi1 modsec_disable_rule config=$2 id=$1
-        whmapi1 modsec_deploy_rule_changes config=$2
-}
+	function disable_rule {
+	        whmapi1 modsec_disable_rule config=$2 id=$1
+	        whmapi1 modsec_deploy_rule_changes config=$2
+	}
 
-echo "Deshabilitando reglas conflictivas..."
-disable_rule 211050 modsec_vendor_configs/comodo_apache/09_Global_Other.conf
-disable_rule 214420 modsec_vendor_configs/comodo_apache/17_Outgoing_FilterPHP.conf
-disable_rule 214940 modsec_vendor_configs/comodo_apache/22_Outgoing_FiltersEnd.conf
-disable_rule 222390 modsec_vendor_configs/comodo_apache/26_Apps_Joomla.conf
-disable_rule 211540 modsec_vendor_configs/comodo_apache/24_SQL_SQLi.conf
-disable_rule 210730 modsec_vendor_configs/comodo_apache/11_HTTP_HTTP.conf
-disable_rule 221570 modsec_vendor_configs/comodo_apache/32_Apps_OtherApps.conf
-disable_rule 212900 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
-disable_rule 212000 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
-disable_rule 212620 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
-disable_rule 212700 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
-disable_rule 212740 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
-disable_rule 212870 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
-disable_rule 212890 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
-disable_rule 212640 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
-disable_rule 212650 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
-disable_rule 221560 modsec_vendor_configs/comodo_apache/32_Apps_OtherApps.conf
-disable_rule 210831 modsec_vendor_configs/comodo_apache/03_Global_Agents.conf
+	echo "Deshabilitando reglas conflictivas..."
+	disable_rule 211050 modsec_vendor_configs/comodo_apache/09_Global_Other.conf
+	disable_rule 214420 modsec_vendor_configs/comodo_apache/17_Outgoing_FilterPHP.conf
+	disable_rule 214940 modsec_vendor_configs/comodo_apache/22_Outgoing_FiltersEnd.conf
+	disable_rule 222390 modsec_vendor_configs/comodo_apache/26_Apps_Joomla.conf
+	disable_rule 211540 modsec_vendor_configs/comodo_apache/24_SQL_SQLi.conf
+	disable_rule 210730 modsec_vendor_configs/comodo_apache/11_HTTP_HTTP.conf
+	disable_rule 221570 modsec_vendor_configs/comodo_apache/32_Apps_OtherApps.conf
+	disable_rule 212900 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
+	disable_rule 212000 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
+	disable_rule 212620 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
+	disable_rule 212700 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
+	disable_rule 212740 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
+	disable_rule 212870 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
+	disable_rule 212890 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
+	disable_rule 212640 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
+	disable_rule 212650 modsec_vendor_configs/comodo_apache/08_XSS_XSS.conf
+	disable_rule 221560 modsec_vendor_configs/comodo_apache/32_Apps_OtherApps.conf
+	disable_rule 210831 modsec_vendor_configs/comodo_apache/03_Global_Agents.conf
+fi
 
 echo "Configurando MySQL..."
 sed -i '/^local-infile.*/d' /etc/my.cnf
