@@ -311,10 +311,15 @@ find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^default
 find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^display_errors.*/display_errors = On/g'
 find /opt/ \( -name "php.ini" -o -name "local.ini" \) | xargs sed -i 's/^error_reporting.*/error_reporting = E_ALL \& \~E_DEPRECATED \& \~E_STRICT/g'
 
-
-echo "Configurando valores default PHP-FPM..."
+echo "Configurando valores default PHP-FPM..." # https://documentation.cpanel.net/display/74Docs/Configuration+Values+of+PHP-FPM
 mkdir -p /var/cpanel/ApachePHPFPM
-grep "pm_max_requests" /var/cpanel/ApachePHPFPM/system_pool_defaults.yaml > /dev/null 2>&1 || echo "pm_max_requests: 40" >> /var/cpanel/ApachePHPFPM/system_pool_defaults.yaml
+cat > /var/cpanel/ApachePHPFPM/system_pool_defaults.yaml << EOF
+---
+pm_max_requests: 40
+php_admin_value_disable_functions : { present_ifdefault: 0 }
+EOF
+/usr/local/cpanel/scripts/php_fpm_config --rebuild
+/scripts/restartsrv_apache_php_fpm
 
 echo "Configurando Handlers..."
 whmapi1 php_set_handler version=ea-php55 handler=cgi
