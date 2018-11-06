@@ -315,6 +315,7 @@ echo "Configurando valores default PHP-FPM..." # https://documentation.cpanel.ne
 mkdir -p /var/cpanel/ApachePHPFPM
 cat > /var/cpanel/ApachePHPFPM/system_pool_defaults.yaml << EOF
 ---
+pm_max_children: 20
 pm_max_requests: 40
 php_admin_value_disable_functions : { present_ifdefault: 0 }
 EOF
