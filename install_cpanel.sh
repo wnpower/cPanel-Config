@@ -434,6 +434,9 @@ whmapi1 set_autossl_metadata_key key=notify_autossl_renewal_coverage value=0
 whmapi1 set_autossl_metadata_key key=notify_autossl_renewal_coverage_reduced value=0
 whmapi1 set_autossl_metadata_key key=notify_autossl_renewal_uncovered_domains value=0
 
+echo "Desactivando cPHulk..."
+whmapi1 disable_cphulk
+
 history -c
 echo "" > /root/.bash_history
 
