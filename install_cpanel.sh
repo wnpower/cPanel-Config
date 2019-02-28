@@ -64,8 +64,12 @@ echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
 
+echo "Cambiando runlevel a 3..."
+systemctl isolate runlevel3.target
+systemctl set-default runlevel3.target
+
 echo "####### INSTALANDO CPANEL #######"
-if [ -d /usr/local/cpanel ]; then
+if [ -f /usr/local/cpanel/cpanel ]; then
         echo "cPanel ya detectado, no se instala, sólo se configura (CTRL + C para cancelar)"
         sleep 10
 else
