@@ -186,6 +186,11 @@ cat > /etc/csf/csf.rignore << EOF
 .search.msn.com
 EOF
 
+echo "Abriendo puertos en CSF para TCP_OUT migraciones cPanel..."
+CPANEL_PORTS="2082,2083"
+CURR_CSF_OUT=$(grep "^TCP_OUT" /etc/csf/csf.conf | cut -d'=' -f2 | sed 's/\ //g' | sed 's/\"//g' | sed "s/,$CPANEL_PORTS,/,/g" | sed "s/,$CPANEL_PORTS//g" | sed "s/$CPANEL_PORTS,//g" | sed "s/,,//g")
+sed -i "s/^TCP_OUT.*/TCP_OUT = \"$CURR_CSF_OUT,$CPANEL_PORTS\"/" /etc/csf/csf.conf
+
 csf -r
 service lfd restart
 
