@@ -450,6 +450,18 @@ whmapi1 set_autossl_metadata_key key=notify_autossl_renewal_uncovered_domains va
 echo "Desactivando cPHulk..."
 whmapi1 disable_cphulk
 
+echo "Activando Header Authorization en CGI..."
+sed -i '/# INICIO ACTIVAR HEADER AUTHORIZATION CGI/,/# FIN ACTIVAR HEADER AUTHORIZATION CGI/d' /etc/apache2/conf.d/includes/pre_main_global.conf
+
+cat >> /etc/apache2/conf.d/includes/pre_main_global.conf << 'EOF'
+# INICIO ACTIVAR HEADER AUTHORIZATION CGI
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+# FIN ACTIVAR HEADER AUTHORIZATION CGI
+
+EOF
+
+/scripts/restartsrv_apache
+
 history -c
 echo "" > /root/.bash_history
 
