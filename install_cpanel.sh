@@ -191,6 +191,21 @@ CPANEL_PORTS="2082,2083"
 CURR_CSF_OUT=$(grep "^TCP_OUT" /etc/csf/csf.conf | cut -d'=' -f2 | sed 's/\ //g' | sed 's/\"//g' | sed "s/,$CPANEL_PORTS,/,/g" | sed "s/,$CPANEL_PORTS//g" | sed "s/$CPANEL_PORTS,//g" | sed "s/,,//g")
 sed -i "s/^TCP_OUT.*/TCP_OUT = \"$CURR_CSF_OUT,$CPANEL_PORTS\"/" /etc/csf/csf.conf
 
+echo "Activando DYNDNS..."
+sed -i 's/^DYNDNS = .*/DYNDNS = "300"/g' /etc/csf/csf.conf
+sed -i 's/^DYNDNS_IGNORE = .*/DYNDNS_IGNORE = "1"/g' /etc/csf/csf.conf
+
+echo "Agregando a csf.dyndns..."
+sed -i '/gmail.com/d' /etc/csf/csf.dyndns
+sed -i '/public.pyzor.org/d' /etc/csf/csf.dyndns
+echo "tcp|out|d=25|d=smtp.gmail.com" >> /etc/csf/csf.dyndns
+echo "tcp|out|d=465|d=smtp.gmail.com" >> /etc/csf/csf.dyndns
+echo "tcp|out|d=587|d=smtp.gmail.com" >> /etc/csf/csf.dyndns
+echo "tcp|out|d=995|d=imap.gmail.com" >> /etc/csf/csf.dyndns
+echo "tcp|out|d=993|d=imap.gmail.com" >> /etc/csf/csf.dyndns
+echo "tcp|out|d=143|d=imap.gmail.com" >> /etc/csf/csf.dyndns
+echo "udp|out|d=24441|d=public.pyzor.org" >> /etc/csf/csf.dyndns
+
 csf -r
 service lfd restart
 
