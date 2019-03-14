@@ -28,7 +28,7 @@ echo "Este script instala y pre-configura cPanel (CTRL + C para cancelar)"
 sleep 10
 
 echo "####### CONFIGURANDO CENTOS #######"
-wget https://raw.githubusercontent.com/wnpower/Linux-Config/master/configure_centos.sh && bash configure_centos.sh
+wget https://raw.githubusercontent.com/wnpower/Linux-Config/master/configure_centos.sh -O "$CWD/configure_centos.sh" && bash "$CWD/configure_centos.sh"
 
 echo "####### PRE-CONFIGURACION CPANEL ##########"
 echo "Desactivando yum-cron..."
