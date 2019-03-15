@@ -36,6 +36,7 @@ yum erase yum-cron -y
 
 systemctl stop NetworkManager.service
 systemctl disable NetworkManager.service
+yum erase NetworkManager -y
 
 echo "######### CONFIGURANDO DNS Y RED ########"
 RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
@@ -100,6 +101,7 @@ if [ ! -d /etc/csf ]; then
 fi
 
 echo " Configurando CSF..."
+yum remove firewalld -y
 yum -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
 
 sed -i 's/^TESTING = .*/TESTING = "0"/g' /etc/csf/csf.conf
