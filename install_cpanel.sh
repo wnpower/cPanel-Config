@@ -479,6 +479,9 @@ EOF
 
 /scripts/restartsrv_apache
 
+echo "Activando 2FA..."
+/usr/local/cpanel/bin/whmapi1 twofactorauth_enable_policy
+
 history -c
 echo "" > /root/.bash_history
 
