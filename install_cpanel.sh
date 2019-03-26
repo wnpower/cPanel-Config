@@ -313,6 +313,8 @@ sed -i 's/^require_secure_auth=.*/require_secure_auth=0/' /etc/exim.conf.localop
 sed -i 's/^acl_spamcop_rbl=.*/acl_spamcop_rbl=1/' /etc/exim.conf.localopts
 sed -i 's/^allowweakciphers=.*/allowweakciphers=1/' /etc/exim.conf.localopts
 sed -i 's/^per_domain_mailips=.*/per_domain_mailips=1/' /etc/exim.conf.localopts
+sed -i 's/^max_spam_scan_size=.*/max_spam_scan_size=1000/' /etc/exim.conf.localopts
+
 # LIMITE DE ATTACHMENTS
 sed -i '/^message_size_limit.*/d' /etc/exim.conf.local
 sed -i '/@CONFIG@/ a message_size_limit = 25M' /etc/exim.conf.local
