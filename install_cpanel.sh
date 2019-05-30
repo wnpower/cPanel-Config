@@ -495,6 +495,19 @@ echo "Activando 2FA..."
 echo "Patch para error Webmail x3..."
 ln -s /usr/local/cpanel/base/webmail/paper_lantern /usr/local/cpanel/base/webmail/x3
 
+echo "desactivando mod_userdir (preview viejo con ~usuario)..."
+sed -i 's/:.*/:/g' /var/cpanel/moddirdomains
+
+find /var/cpanel/userdata/ -type f -exec grep -H "userdirprotect: -1" {} \; | while read LINE
+do
+        FILE=$(echo "$LINE" | cut -d':' -f1)
+        sed -i "s/userdirprotect: -1/userdirprotect: ''/" "$FILE"
+done
+
+/scripts/rebuildhttpdconf
+/scripts/restartsrv_httpd
+
+
 history -c
 echo "" > /root/.bash_history
 
