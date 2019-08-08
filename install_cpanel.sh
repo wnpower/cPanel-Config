@@ -522,6 +522,8 @@ done
 /scripts/rebuildhttpdconf
 /scripts/restartsrv_httpd
 
+echo "Configurando JailShell..."
+echo "/etc/pki/java" >> /var/cpanel/jailshell-additional-mounts
 
 history -c
 echo "" > /root/.bash_history
