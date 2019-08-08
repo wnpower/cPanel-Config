@@ -525,6 +525,9 @@ done
 echo "Configurando JailShell..."
 echo "/etc/pki/java" >> /var/cpanel/jailshell-additional-mounts
 
+echo "Miscelaneas..."
+chmod 755 /usr/bin/wget # NO TIENE PERMISOS DE EJECUCION PARA TODOS POR DEFAULT
+
 history -c
 echo "" > /root/.bash_history
 
