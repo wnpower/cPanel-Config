@@ -255,6 +255,11 @@ sed -i '/^LimitRecursion:.*/d' /var/cpanel/conf/pureftpd/local; echo "LimitRecur
 
 /usr/local/cpanel/scripts/setupftpserver pure-ftpd --force
 
+echo "Activando módulo ip_conntrack_ftp..."
+modprobe ip_conntrack_ftp
+echo "modprobe ip_conntrack_ftp" >> /etc/rc.modules
+chmod +x /etc/rc.modules
+
 echo "Configurando Tweak Settings..."
 whmapi1 set_tweaksetting key=allowremotedomains value=1
 whmapi1 set_tweaksetting key=allowunregistereddomains value=1
