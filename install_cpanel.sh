@@ -65,9 +65,9 @@ echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
 
-echo "Cambiando runlevel a 3..."
-systemctl isolate runlevel3.target
-systemctl set-default runlevel3.target
+#echo "Cambiando runlevel a 3..." # Trajo algunos problemas con CentOS 7.7: https://bugs.centos.org/view.php?id=16440
+#systemctl isolate runlevel3.target
+#systemctl set-default runlevel3.target
 
 echo "####### INSTALANDO CPANEL #######"
 if [ -f /usr/local/cpanel/cpanel ]; then
