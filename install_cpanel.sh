@@ -533,6 +533,31 @@ echo "/etc/pki/java" >> /var/cpanel/jailshell-additional-mounts
 echo "Miscelaneas..."
 chmod 755 /usr/bin/wget # NO TIENE PERMISOS DE EJECUCION PARA TODOS POR DEFAULT
 
+echo "Instalando PHP ImageMagick..."
+yum -y install ImageMagick-devel ImageMagick-c++-devel ImageMagick-perl
+
+for phpver in $(ls -1 /opt/cpanel/ |grep ea-php | sed 's/ea-php//g') ; do
+
+        printf "\autodetect" | exec /opt/cpanel/ea-php$phpver/root/usr/bin/php -C \
+        -d include_path=/usr/share/pear \
+        -d date.timezone=UTC \
+        -d output_buffering=1 \
+        -d variables_order=EGPCS \
+        -d safe_mode=0 \
+        -d register_argc_argv="On" \
+        -d disable_functions="" \
+        /opt/cpanel/ea-php$phpver/root/usr/share/pear/peclcmd.php install imagick
+
+        #sed -i 's/extension=imagick.so//' /opt/cpanel/ea-php$phpver/root/etc/php.d/imagick.ini
+        #echo 'extension=imagick.so' >> /opt/cpanel/ea-php$phpver/root/etc/php.d/imagick.ini
+
+done
+
+/scripts/restartsrv_httpd
+/scripts/restartsrv_apache_php_fpm
+
+echo "Limpiando...."
+
 history -c
 echo "" > /root/.bash_history
 
