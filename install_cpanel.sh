@@ -558,14 +558,6 @@ done
 /scripts/restartsrv_httpd
 /scripts/restartsrv_apache_php_fpm
 
-# EMOTICONES ROUNDCUBE
-if [ -d /usr/local/cpanel/base/3rdparty/roundcube/plugins/emoticons/ ]; then
-        echo "Activando emoticons en Roundcube..."
-        cp -af /usr/local/cpanel/base/3rdparty/roundcube/config/config.inc.php /usr/local/cpanel/base/3rdparty/roundcube/config/config.inc.php.bak
-        sed -i "s/\$config\['plugins'\] \(.*\));/\$config\['plugins'\] \1,'emoticons');/" /usr/local/cpanel/base/3rdparty/roundcube/config/config.inc.php
-        echo "Listo!"
-fi
-
 echo "Limpiando...."
 
 history -c
