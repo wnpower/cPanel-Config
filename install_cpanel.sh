@@ -290,6 +290,7 @@ whmapi1 set_tweaksetting key=jaildefaultshell value=1
 whmapi1 set_tweaksetting key=php_post_max_size value=100
 whmapi1 set_tweaksetting key=php_upload_max_filesize value=100
 whmapi1 set_tweaksetting key=empty_trash_days value=30
+whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
 
 sed -i 's/^phpopenbasedirhome=.*/phpopenbasedirhome=1/' /var/cpanel/cpanel.config
 sed -i 's/^minpwstrength=.*/minpwstrength=70/' /var/cpanel/cpanel.config
