@@ -573,6 +573,9 @@ done
 /scripts/restartsrv_httpd
 /scripts/restartsrv_apache_php_fpm
 
+echo "Desactivando Greylisting..."
+whmapi1 disable_cpgreylist
+
 echo "Limpiando...."
 
 history -c
