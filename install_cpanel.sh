@@ -232,8 +232,8 @@ fi
 
 HOSTNAME_LONG=$(hostname -d)
 
-echo "Bajando TTL de DNS a 1 Hora..."
-sed -i 's/TTL 14400/TTL 3600/' /etc/wwwacct.conf
+echo "Bajando TTL de DNS a 15 minutos..."
+sed -i 's/^TTL .*/TTL 900/' /etc/wwwacct.conf
 
 echo "Cambiando mail de contacto..."
 sed -i '/^CONTACTEMAIL\ .*/d' /etc/wwwacct.conf
