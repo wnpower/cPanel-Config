@@ -74,7 +74,7 @@ if [ -f /usr/local/cpanel/cpanel ]; then
         echo "cPanel ya detectado, no se instala, sólo se configura (CTRL + C para cancelar)"
         sleep 10
 else
-        cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
+        cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest --skip-cloudlinux
 fi
 echo "####### FIN INSTALANDO CPANEL #######"
 
