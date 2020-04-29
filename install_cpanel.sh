@@ -75,6 +75,9 @@ if [ -f /usr/local/cpanel/cpanel ]; then
         sleep 10
 else
         cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest --skip-cloudlinux
+
+	echo "Esperando 5 minutos a que termine de instalar paquetes remanentes en segundo plano para continuar..."
+	sleep 300
 fi
 echo "####### FIN INSTALANDO CPANEL #######"
 
