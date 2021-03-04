@@ -819,11 +819,15 @@ whmapi1 disable_cpgreylist
 echo "Fix lsb_release JailShell..."
 if grep -i Cloudlinux /etc/redhat-release > /dev/null; then
         echo "Cloudlinux detectado, no es necesario este fix (solo es para JailShell)."
-        exit 1
-fi
+else
 
 cat << 'EOS' > /usr/sbin/lsb_release
 #!/bin/bash
+
+if ! (echo $SHELL | grep "jailshell" > /dev/null); then
+        /usr/bin/lsb_release "$@"
+fi
+
 read -r -d '' VAR << EOF
 REEMPLAZAR_STRING
 EOF
@@ -831,13 +835,15 @@ EOF
 echo "$VAR"
 EOS
 
-/usr/bin/lsb_release -a > /tmp/lsb_release
-sed -i "/REEMPLAZAR_STRING/r /tmp/lsb_release" /usr/sbin/lsb_release
-sed -i '/REEMPLAZAR_STRING/d' /usr/sbin/lsb_release
+	/usr/bin/lsb_release -a > /tmp/lsb_release
+	sed -i "/REEMPLAZAR_STRING/r /tmp/lsb_release" /usr/sbin/lsb_release
+	sed -i '/REEMPLAZAR_STRING/d' /usr/sbin/lsb_release
 
-chmod 755 /usr/sbin/lsb_release
+	chmod 755 /usr/sbin/lsb_release
 
-rm -f /tmp/lsb_release
+	rm -f /tmp/lsb_release
+
+fi
 #### FIX JAILSHELL ####
 
 echo "Limpiando...."
