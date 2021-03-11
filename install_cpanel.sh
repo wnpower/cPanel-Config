@@ -637,9 +637,9 @@ whmapi1 php_set_handler version=ea-php74 handler=cgi
 whmapi1 php_set_handler version=ea-php80 handler=cgi
 whmapi1 php_set_system_default_version version=ea-php74
 
-echo "Configurando PHP-FPM..."
-whmapi1 php_set_default_accounts_to_fpm default_accounts_to_fpm=1
-whmapi1 convert_all_domains_to_fpm
+#echo "Configurando PHP-FPM..."
+#whmapi1 php_set_default_accounts_to_fpm default_accounts_to_fpm=1
+#whmapi1 convert_all_domains_to_fpm
 
 if [ $ISVPS = "NO" ]; then
 	echo "Configurando ModSecurity..."
