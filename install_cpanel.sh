@@ -85,12 +85,12 @@ echo "####### FIN INSTALANDO CPANEL #######"
 echo "####### VERIFICANDO LICENCIA #######"
 i=0
 while ! /usr/local/cpanel/cpkeyclt; do
-if [ $i -gt 20 ]; then
+if [ $i -gt 30 ]; then
 	echo "Se reintentó más de $i veces, no se puede seguir. Licenciá la IP y luego ejecutá este script de nuevo."
 	exit 1
 fi
-	echo "Licencia de cPanel no detectada, se reintenta en 10 minutos..."
-	sleep 600
+	echo "Licencia de cPanel no detectada, se reintenta en 15 minutos..."
+	sleep 900
 	((i=i+1))
 done
 echo "####### FIN VERIFICANDO LICENCIA #######"
