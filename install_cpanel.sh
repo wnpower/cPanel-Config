@@ -79,25 +79,25 @@ else
 
 	echo "Esperando 5 minutos a que termine de instalar paquetes remanentes en segundo plano para continuar..."
 	sleep 300
-
-	echo "####### VERIFICANDO LICENCIA #######"
-	i=0
-	while ! /usr/local/cpanel/cpkeyclt; do
-		if [ $i -gt 20 ]; then
-			echo "Se reintentó más de $i veces, no se puede seguir. Licenciá la IP y luego ejecutá este script de nuevo."
-			exit 1
-		fi
-        	echo "Licencia de cPanel no detectada, se reintenta en 10 minutos..."
-	        sleep 600
-		((i=i+1))
-	done
-	echo "####### FIN VERIFICANDO LICENCIA #######"
-	
-	whmapi1 sethostname hostname=$(cat /root/hostname) # Fix cambio de hostname por cprapid.com cpanel v90 https://docs.cpanel.net/knowledge-base/dns/automatically-issued-hostnames/
-	hostnamectl set-hostname $(cat /root/hostname)
-	rm -f /root/hostname
 fi
 echo "####### FIN INSTALANDO CPANEL #######"
+
+echo "####### VERIFICANDO LICENCIA #######"
+i=0
+while ! /usr/local/cpanel/cpkeyclt; do
+if [ $i -gt 20 ]; then
+	echo "Se reintentó más de $i veces, no se puede seguir. Licenciá la IP y luego ejecutá este script de nuevo."
+	exit 1
+fi
+	echo "Licencia de cPanel no detectada, se reintenta en 10 minutos..."
+	sleep 600
+	((i=i+1))
+done
+echo "####### FIN VERIFICANDO LICENCIA #######"
+
+whmapi1 sethostname hostname=$(cat /root/hostname) # Fix cambio de hostname por cprapid.com cpanel v90 https://docs.cpanel.net/knowledge-base/dns/automatically-issued-hostnames/
+hostnamectl set-hostname $(cat /root/hostname)
+rm -f /root/hostname
 
 echo "####### CONFIGURANDO CSF #######"
 if [ ! -d /etc/csf ]; then
