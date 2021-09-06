@@ -76,11 +76,9 @@ if [ -f /usr/local/cpanel/cpanel ]; then
 else
 	hostname -f > /root/hostname
 
-	if grep -i "release 8" /etc/redhat-release > /dev/null; then
-		# En RHL8 instala MySQL 8 por defecto, cambiamos a MariaDB: https://cloudlinux.zendesk.com/hc/en-us/articles/360020599839
-		mkdir -p /root/cpanel_profile/
-		echo "mysql-version=10.5" >> /root/cpanel_profile/cpanel.config
-	fi
+	# INSTALAR MARIADB 10.5 POR DEFECTO
+	mkdir -p /root/cpanel_profile/
+	echo "mysql-version=10.5" >> /root/cpanel_profile/cpanel.config
 
 	cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest --skip-cloudlinux
 
