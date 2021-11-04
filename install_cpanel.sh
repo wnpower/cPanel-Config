@@ -89,15 +89,27 @@ echo "####### FIN INSTALANDO CPANEL #######"
 
 echo "####### VERIFICANDO LICENCIA #######"
 i=0
-while ! /usr/local/cpanel/cpkeyclt; do
-if [ $i -gt 30 ]; then
-	echo "Se reintentó más de $i veces, no se puede seguir. Licenciá la IP y luego ejecutá este script de nuevo."
-	exit 1
-fi
-	echo "Licencia de cPanel no detectada, se reintenta en 15 minutos..."
-	sleep 900
-	((i=i+1))
+while ! (curl -m 10 -L "https://verify.cpanel.net?ip=$(curl -m 10 -L https://cpanel.net/myip 2>/dev/null)" 2>/dev/null | grep -v "active on" | grep "active" > /dev/null); do
+	if [ $i -gt 30 ]; then
+        	echo "Se reintentó más de $i veces, no se puede seguir. Licenciá la IP y luego ejecutá este script de nuevo."
+        	exit 1
+	fi
+        
+	echo "Licencia de cPanel no detectada, se reintenta en 5 minutos..."
+        sleep 300
+        ((i=i+1))
 done
+/usr/local/cpanel/cpkeyclt
+
+#while ! /usr/local/cpanel/cpkeyclt; do
+#if [ $i -gt 30 ]; then
+#	echo "Se reintentó más de $i veces, no se puede seguir. Licenciá la IP y luego ejecutá este script de nuevo."
+#	exit 1
+#fi
+#	echo "Licencia de cPanel no detectada, se reintenta en 15 minutos..."
+#	sleep 900
+#	((i=i+1))
+#done
 echo "####### FIN VERIFICANDO LICENCIA #######"
 
 whmapi1 sethostname hostname=$(cat /root/hostname) # Fix cambio de hostname por cprapid.com cpanel v90 https://docs.cpanel.net/knowledge-base/dns/automatically-issued-hostnames/
