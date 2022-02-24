@@ -614,6 +614,31 @@ ea-php80-php-gettext \
 ea-php80-php-gmp \
 ea-php80-php-xml \
 ea-php80-php-imap \
+ea-php81-pear \
+ea-php81-php-cli \
+ea-php81-php-common \
+ea-php81-php-curl \
+ea-php81-php-devel \
+ea-php81-php-exif \
+ea-php81-php-fileinfo \
+ea-php81-php-ftp \
+ea-php81-php-gd \
+ea-php81-php-iconv \
+ea-php81-php-intl \
+ea-php81-php-litespeed \
+ea-php81-php-mbstring \
+ea-php81-php-mysqlnd \
+ea-php81-php-opcache \
+ea-php81-php-pdo \
+ea-php81-php-posix \
+ea-php81-php-soap \
+ea-php81-php-zip \
+ea-php81-runtime \
+ea-php81-php-bcmath \
+ea-php81-php-gettext \
+ea-php81-php-gmp \
+ea-php81-php-xml \
+ea-php81-php-imap \
 --skip-broken
 
 echo "Configurando PHP EasyApache 4..."
