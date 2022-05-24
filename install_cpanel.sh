@@ -890,6 +890,9 @@ whmapi1 set_default type='default' name='basic'
 echo "Desactivando cPanel Analytics..."
 whmapi1 participate_in_analytics enabled=0
 
+echo "Corrigiendo RPMs de cPanel..." # A veces queda alguno corrupto
+/usr/local/cpanel/scripts/check_cpanel_pkgs --fix
+
 echo "Limpiando...."
 
 history -c
