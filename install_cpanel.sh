@@ -831,9 +831,6 @@ EOF
 echo "Activando 2FA..."
 /usr/local/cpanel/bin/whmapi1 twofactorauth_enable_policy
 
-echo "Patch para error Webmail x3..."
-ln -s /usr/local/cpanel/base/webmail/paper_lantern /usr/local/cpanel/base/webmail/x3
-
 echo "desactivando mod_userdir (preview viejo con ~usuario)..."
 sed -i 's/:.*/:/g' /var/cpanel/moddirdomains
 
