@@ -421,27 +421,6 @@ openssl-devel \
 unixODBC \
 ea-apache24-mod_version \
 ea-apache24-mod_env \
-ea-php55-php-curl \
-ea-php55-php-fileinfo \
-ea-php55-php-fpm \
-ea-php55-php-gd \
-ea-php55-php-iconv \
-ea-php55-php-ioncube \
-ea-php55-php-intl \
-ea-php55-php-mbstring \
-ea-php55-php-mcrypt \
-ea-php55-php-pdo \
-ea-php55-php-soap \
-ea-php55-php-zip \
-ea-php55-php-mysqlnd \
-ea-php55-php-exif \
-ea-php55-php-xmlrpc \
-ea-php55-php-gmp \
-ea-php55-php-gettext \
-ea-php55-php-fpm \
-ea-php55-php-xml \
-ea-php55-php-bcmath \
-ea-php55-php-imap \
 ea-php56-php-curl \
 ea-php56-php-fileinfo \
 ea-php56-php-fpm \
@@ -690,7 +669,6 @@ EOF
 /scripts/restartsrv_apache_php_fpm
 
 echo "Configurando Handlers..."
-whmapi1 php_set_handler version=ea-php55 handler=cgi
 whmapi1 php_set_handler version=ea-php56 handler=cgi
 whmapi1 php_set_handler version=ea-php70 handler=cgi
 whmapi1 php_set_handler version=ea-php71 handler=cgi
@@ -698,6 +676,7 @@ whmapi1 php_set_handler version=ea-php72 handler=cgi
 whmapi1 php_set_handler version=ea-php73 handler=cgi
 whmapi1 php_set_handler version=ea-php74 handler=cgi
 whmapi1 php_set_handler version=ea-php80 handler=cgi
+whmapi1 php_set_handler version=ea-php81 handler=cgi
 whmapi1 php_set_system_default_version version=ea-php74
 
 echo "Configurando PHP-FPM..."
