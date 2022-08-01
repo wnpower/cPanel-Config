@@ -875,6 +875,8 @@ echo "Corrigiendo RPMs de cPanel..." # A veces queda alguno corrupto
 
 echo "Limpiando...."
 
+rm -f /var/cpanel/nocloudlinux > /dev/null
+
 history -c
 echo "" > /root/.bash_history
 
