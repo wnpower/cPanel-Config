@@ -873,6 +873,9 @@ whmapi1 participate_in_analytics enabled=0
 echo "Corrigiendo RPMs de cPanel..." # A veces queda alguno corrupto
 /usr/local/cpanel/scripts/check_cpanel_pkgs --fix
 
+echo "Seteando versión default de PHP global..."
+whmapi1 php_set_system_default_version version=ea-php81
+
 echo "Limpiando...."
 
 rm -f /var/cpanel/nocloudlinux > /dev/null
