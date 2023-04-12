@@ -76,7 +76,7 @@ if [ -f /usr/local/cpanel/cpanel ]; then
 else
 	hostname -f > /root/hostname
 
-	# INSTALAR MARIADB 10.5 POR DEFECTO
+	# INSTALAR MARIADB 10.5 POR DEFECTO https://cloudlinux.zendesk.com/hc/en-us/articles/360020599839
 	mkdir -p /root/cpanel_profile/
 	echo "mysql-version=10.5" >> /root/cpanel_profile/cpanel.config
 
