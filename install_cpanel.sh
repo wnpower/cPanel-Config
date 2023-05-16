@@ -415,6 +415,14 @@ fi
 /scripts/buildeximconf
 
 echo "Instalando paquetes PHP EasyApache 4..."
+if grep -i "Almalinux release 8" /etc/redhat-release > /dev/null; then
+        # https://support.cpanel.net/hc/en-us/articles/14191689268375-How-to-Install-the-Sodium-Cryptographic-Library-libsodium-and-PHP-Extension-on-AlmaLinux-8-and-CloudLinux-8
+        dnf install libsodium libsodium-devel -y
+else # CENTOS 7
+        # https://support.cpanel.net/hc/en-us/articles/360056786594-How-to-Install-the-Sodium-Cryptographic-Library-libsodium-and-PHP-Extension-on-CentOS-7-and-CloudLinux-7
+        yum install epel-release -y
+        yum install libsodium libsodium-devel -y
+fi
 yum install -y \
 ea-apache24-mod_proxy_fcgi \
 libcurl-devel \
@@ -637,6 +645,33 @@ ea-php81-php-gettext \
 ea-php81-php-gmp \
 ea-php81-php-xml \
 ea-php81-php-imap \
+ea-php82 \
+ea-php82-pear \
+ea-php82-php-cli \
+ea-php82-php-common \
+ea-php82-php-curl \
+ea-php82-php-devel \
+ea-php82-php-exif \
+ea-php82-php-fileinfo \
+ea-php82-php-ftp \
+ea-php82-php-gd \
+ea-php82-php-iconv \
+ea-php82-php-intl \
+ea-php82-php-litespeed \
+ea-php82-php-mbstring \
+ea-php82-php-mysqlnd \
+ea-php82-php-opcache \
+ea-php82-php-pdo \
+ea-php82-php-posix \
+ea-php82-php-soap \
+ea-php82-php-zip \
+ea-php82-runtime \
+ea-php82-php-bcmath \
+ea-php82-php-gettext \
+ea-php82-php-gmp \
+ea-php82-php-xml \
+ea-php82-php-imap \
+ea-php82-php-sodium \
 --skip-broken
 
 echo "Configurando PHP EasyApache 4..."
