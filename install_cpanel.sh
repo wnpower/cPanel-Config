@@ -402,14 +402,14 @@ sed -i 's/^openssl_options=.*/openssl_options= +no_sslv2 +no_sslv3/' /etc/exim.c
 sed -i 's/^tls_require_ciphers=.*/tls_require_ciphers=ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS/' /etc/exim.conf.localopts
 sed -i 's/^message_linelength_limit=.*/message_linelength_limit=4096/' /etc/exim.conf.localopts # https://support.cpanel.net/hc/en-us/articles/4420121088919-Exim-4-95-message-has-lines-too-long-for-transport-Error
 
-# LIMITE DE ATTACHMENTS
-sed -i '/^message_size_limit.*/d' /etc/exim.conf.local > /dev/null
+# LIMITE DE ATTACHMENTS (SE PONE 40M PARA TENER UN LIMITE DE 25M POR BUG https://support.cpanel.net/hc/en-us/articles/360052199934--SMTP-Error-Message-exceeds-server-limit-when-email-attachment-is-smaller-than-limit)
+sed -i '/^message_size_limit.*/d' /etc/exim.conf.local
 if grep "@CONFIG@" /etc/exim.conf.local > /dev/null; then
-        sed -i '/@CONFIG@/ a message_size_limit = 25M' /etc/exim.conf.local
+        sed -i '/@CONFIG@/ a message_size_limit = 40M' /etc/exim.conf.local
 else
         echo "@CONFIG@" >> /etc/exim.conf.local
         echo "" >> /etc/exim.conf.local
-        sed -i '/@CONFIG@/ a message_size_limit = 25M' /etc/exim.conf.local
+        sed -i '/@CONFIG@/ a message_size_limit = 40M' /etc/exim.conf.local
 fi
 
 /scripts/buildeximconf
