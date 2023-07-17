@@ -778,7 +778,7 @@ sed  -i '/\[mysqld\]/a # WNPower pre-configured values' /etc/my.cnf
 /scripts/restartsrv_mysql
 
 echo "Configurando feature disabled..."
-whmapi1 update_featurelist featurelist=disabled api_shell=0 agora=0 analog=0 boxtrapper=0 traceaddy=0 modules-php-pear=0 modules-perl=0 modules-ruby=0 pgp=0 phppgadmin=0 postgres=0 ror=0 serverstatus=0 webalizer=0 clamavconnector_scan=0 lists=0
+whmapi1 update_featurelist featurelist=disabled api_shell=0 agora=0 analog=0 boxtrapper=0 traceaddy=0 modules-php-pear=0 modules-perl=0 modules-ruby=0 pgp=0 phppgadmin=0 postgres=0 ror=0 serverstatus=0 webalizer=0 clamavconnector_scan=0 lists=0 emailtrace=1
 
 echo "Configurando feature default..."
 whmapi1 update_featurelist featurelist=default modsecurity=1 zoneedit=1 emailtrace=1
