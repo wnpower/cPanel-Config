@@ -133,9 +133,6 @@ if [ ! -d /etc/csf ]; then
         yum remove firewalld -y
         yum -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
 
-	# FIX NFTABLES
-	wget https://raw.githubusercontent.com/wnpower/Scripts-Utils-Linux/master/vps/fix_nftables_al8.sh -O /var/fix_nftables_al8.sh; chmod 755 /var/fix_nftables_al8.sh; /var/fix_nftables_al8.sh; rm -f /var/fix_nftables_al8.sh
-
 	cd /root && rm -f ./csf.tgz; wget https://download.configserver.com/csf.tgz && tar xvfz ./csf.tgz && cd ./csf && sh ./install.sh
 fi
 
