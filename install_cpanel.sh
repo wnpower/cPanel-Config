@@ -133,13 +133,8 @@ if [ ! -d /etc/csf ]; then
         yum remove firewalld -y
         yum -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
 
-        if [ -f /proc/vz/veinfo ] && grep -i "release 8" /etc/redhat-release > /dev/null; then # EN AL8 Y OPENVZ NO ANDA CSF CON EL NUEVO IPTABLES, SE INSTALA UNA VERSION MAS VIEJA DE CENTOS 7
-                yum remove iptables iptables-services iptables-libs -y
-                yum install http://mirror.centos.org/centos/7/os/x86_64/Packages/iptables-1.4.21-35.el7.x86_64.rpm -y
-
-                yum -y install yum-plugin-versionlock
-                yum versionlock iptables iptables-services iptables-libs
-        fi
+	# FIX NFTABLES
+	wget https://raw.githubusercontent.com/wnpower/Scripts-Utils-Linux/master/vps/fix_nftables_al8.sh -O /var/fix_nftables_al8.sh; chmod 755 /var/fix_nftables_al8.sh; /var/fix_nftables_al8.sh; rm -f /var/fix_nftables_al8.sh
 
 	cd /root && rm -f ./csf.tgz; wget https://download.configserver.com/csf.tgz && tar xvfz ./csf.tgz && cd ./csf && sh ./install.sh
 fi
