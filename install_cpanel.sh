@@ -79,6 +79,15 @@ EOF
 
 fi
 
+echo "####### DESACTIVANDO SELINUX #######"
+
+sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/sysconfig/selinux
+setenforce 0
+
+yum remove setroubleshoot* -y
+
+echo "####### FIN DESACTIVANDO SELINUX #######"
+
 echo "####### INSTALANDO CPANEL #######"
 if [ -f /usr/local/cpanel/cpanel ]; then
         echo "cPanel ya detectado, no se instala, sólo se configura (CTRL + C para cancelar)"
