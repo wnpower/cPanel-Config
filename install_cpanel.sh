@@ -68,16 +68,12 @@ echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
 if [ -f /etc/cloud/cloud.cfg ]; then
 	echo "Configurando cloud-init..."
 
-	sed -i '/bootcmd:/d' /etc/cloud/cloud.cfg
-	sed -i '/vim:syntax=yaml/d' /etc/cloud/cloud.cfg
-	sed -i '/sed.*ifcfg-eth/d' /etc/cloud/cloud.cfg
-
-cat << 'EOF' >> /etc/cloud/cloud.cfg
+# Desactivar PEERDNS para que dhclient no pise resolv.conf
+cat << 'EOF' > /etc/cloud/cloud.cfg.d/99-disable-peerdns.cfg
 bootcmd:
  - sed -i '/^PEERDNS=/{h;s/=.*/=no/};${x;/^$/{s//PEERDNS=no/;H};x}' /etc/sysconfig/network-scripts/ifcfg-eth*
 EOF
 
-	echo "# vim:syntax=yaml" >> /etc/cloud/cloud.cfg
 fi
 
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
