@@ -63,6 +63,23 @@ echo "nameserver 199.85.126.10" >> /etc/resolv.conf # Norton
 echo "nameserver 8.26.56.26" >> /etc/resolv.conf # Comodo
 echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
+
+# Configurar cloud-init
+if [ -f /etc/cloud/cloud.cfg ]; then
+	echo "Configurando cloud-init..."
+
+	sed -i '/bootcmd:/d' /etc/cloud/cloud.cfg
+	sed -i '/vim:syntax=yaml/d' /etc/cloud/cloud.cfg
+	sed -i '/sed.*ifcfg-eth/d' /etc/cloud/cloud.cfg
+
+cat << 'EOF' >> /etc/cloud/cloud.cfg
+bootcmd:
+ - sed -i '/^PEERDNS=/{h;s/=.*/=no/};${x;/^$/{s//PEERDNS=no/;H};x}' /etc/sysconfig/network-scripts/ifcfg-eth*
+EOF
+
+	echo "# vim:syntax=yaml" >> /etc/cloud/cloud.cfg
+fi
+
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
 
 # En CentOS 7 preconfiguro en LTS
