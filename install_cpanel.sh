@@ -34,11 +34,16 @@ echo "####### PRE-CONFIGURACION CPANEL ##########"
 echo "Desactivando yum-cron..."
 yum erase yum-cron -y
 
+echo "######### CONFIGURANDO DNS Y RED ########"
+echo "Reemplazando Network Manager con network..."
 systemctl stop NetworkManager.service
 systemctl disable NetworkManager.service
 yum erase NetworkManager -y
 
-echo "######### CONFIGURANDO DNS Y RED ########"
+yum install network-scripts -y
+systemctl enable network.service
+systemctl start network.service
+
 RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
 ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
 
