@@ -32,7 +32,8 @@ wget https://raw.githubusercontent.com/wnpower/Linux-Config/master/configure_cen
 
 echo "####### PRE-CONFIGURACION CPANEL ##########"
 echo "Desactivando yum-cron..."
-yum erase yum-cron -y
+yum erase yum-cron -y 2>/dev/null # CentOS
+yum erase dnf-automatic -y 2>/dev/null # Almalinux
 
 echo "######### CONFIGURANDO DNS Y RED ########"
 echo "Reemplazando Network Manager con network..."
@@ -99,10 +100,11 @@ fi
 
 echo "####### DESACTIVANDO SELINUX #######"
 
-sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/sysconfig/selinux
+# PRE-REQUISITOS PARA INSTALAR cPANEL
+sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/sysconfig/selinux 2>/dev/null
 setenforce 0
-
 yum remove setroubleshoot* -y
+yum install crontabs cronie cronie-anacron -y
 
 echo "####### FIN DESACTIVANDO SELINUX #######"
 
@@ -138,15 +140,6 @@ while ! (curl -m 10 -L "https://verify.cpanel.net?ip=$(curl -m 10 -L checkip.ama
 done
 /usr/local/cpanel/cpkeyclt
 
-#while ! /usr/local/cpanel/cpkeyclt; do
-#if [ $i -gt 30 ]; then
-#	echo "Se reintentó más de $i veces, no se puede seguir. Licenciá la IP y luego ejecutá este script de nuevo."
-#	exit 1
-#fi
-#	echo "Licencia de cPanel no detectada, se reintenta en 15 minutos..."
-#	sleep 900
-#	((i=i+1))
-#done
 echo "####### FIN VERIFICANDO LICENCIA #######"
 
 whmapi1 sethostname hostname=$(cat /root/hostname) # Fix cambio de hostname por cprapid.com cpanel v90 https://docs.cpanel.net/knowledge-base/dns/automatically-issued-hostnames/
@@ -444,7 +437,7 @@ fi
 /scripts/buildeximconf
 
 echo "Instalando paquetes PHP EasyApache 4..."
-if grep -i "Almalinux release 8" /etc/redhat-release > /dev/null; then
+if grep -i "Almalinux" /etc/redhat-release > /dev/null; then
         # https://support.cpanel.net/hc/en-us/articles/14191689268375-How-to-Install-the-Sodium-Cryptographic-Library-libsodium-and-PHP-Extension-on-AlmaLinux-8-and-CloudLinux-8
         dnf install libsodium libsodium-devel -y
 else # CENTOS 7
@@ -817,11 +810,11 @@ whmapi1 addpkg name=default featurelist=default quota=$QUOTA cgi=0 frontpage=0 l
 
 echo "Configurando hora del servidor..."
 
-if grep -i "release 8" /etc/redhat-release > /dev/null; then
+if grep -i "Almalinux" /etc/redhat-release > /dev/null; then
         echo "Instalando Chrony..."
         yum install chrony -y
         systemctl enable chronyd
-else
+else # CentOS 7
         yum install ntpdate -y
         echo "Sincronizando fecha con pool.ntp.org..."
         ntpdate 0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org 0.south-america.pool.ntp.org
