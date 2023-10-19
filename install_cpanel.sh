@@ -888,6 +888,9 @@ yum -y install ImageMagick-devel ImageMagick-c++-devel ImageMagick-perl
 
 for phpver in $(ls -1 /opt/cpanel/ |grep ea-php | sed 's/ea-php//g') ; do
 
+	# Desactivo disable_functions
+	sed -i 's/^disable_functions/;disable_functions/' /opt/cpanel/ea-php$phpver/root/etc/php.ini
+
         printf "\autodetect" | exec /opt/cpanel/ea-php$phpver/root/usr/bin/php -C \
         -d include_path=/usr/share/pear \
         -d date.timezone=UTC \
@@ -898,9 +901,8 @@ for phpver in $(ls -1 /opt/cpanel/ |grep ea-php | sed 's/ea-php//g') ; do
         -d disable_functions="" \
         /opt/cpanel/ea-php$phpver/root/usr/share/pear/peclcmd.php install imagick
 
-        #sed -i 's/extension=imagick.so//' /opt/cpanel/ea-php$phpver/root/etc/php.d/imagick.ini
-        #echo 'extension=imagick.so' >> /opt/cpanel/ea-php$phpver/root/etc/php.d/imagick.ini
-
+	# REACTIVO disable_functions
+        sed -i 's/^;disable_functions/disable_functions/' /opt/cpanel/ea-php$phpver/root/etc/php.ini
 done
 
 /scripts/restartsrv_httpd
