@@ -72,6 +72,7 @@ sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/sysconfig/selinux 2>/dev/null
 setenforce 0
 yum remove setroubleshoot* -y
 yum install crontabs cronie cronie-anacron -y
+yum install openldap-compat -y # Lo necesita servicio cpanel_php_fpm AL9
 
 echo "####### FIN DESACTIVANDO SELINUX #######"
 
