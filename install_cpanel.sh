@@ -36,27 +36,6 @@ yum erase yum-cron -y 2>/dev/null # CentOS
 yum erase dnf-automatic -y 2>/dev/null # Almalinux
 
 echo "######### CONFIGURANDO DNS Y RED ########"
-echo "Reemplazando Network Manager con network..."
-systemctl stop NetworkManager.service
-systemctl disable NetworkManager.service
-yum erase NetworkManager -y
-
-yum install network-scripts -y
-systemctl enable network.service
-systemctl start network.service
-
-RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
-ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
-
-sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG
-sed -i '/^DNS1=.*/d' $ETHCFG
-sed -i '/^DNS2=.*/d' $ETHCFG
-	
-echo "Configurando red..."
-echo "PEERDNS=no" >> $ETHCFG
-echo "NM_CONTROLLED=no" >> $ETHCFG
-echo "DNS1=127.0.0.1" >> $ETHCFG
-echo "DNS2=8.8.8.8" >> $ETHCFG
 
 echo "Reescribiendo /etc/resolv.conf..."
 
@@ -69,18 +48,6 @@ echo "nameserver 199.85.126.10" >> /etc/resolv.conf # Norton
 echo "nameserver 8.26.56.26" >> /etc/resolv.conf # Comodo
 echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
-
-# Configurar cloud-init
-if [ -f /etc/cloud/cloud.cfg ]; then
-	echo "Configurando cloud-init..."
-
-# Desactivar PEERDNS para que dhclient no pise resolv.conf
-cat << 'EOF' > /etc/cloud/cloud.cfg.d/99-disable-peerdns.cfg
-bootcmd:
- - sed -i '/^PEERDNS=/{h;s/=.*/=no/};${x;/^$/{s//PEERDNS=no/;H};x}' /etc/sysconfig/network-scripts/ifcfg-eth*
-EOF
-
-fi
 
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
 
