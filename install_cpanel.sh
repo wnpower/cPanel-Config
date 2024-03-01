@@ -37,6 +37,19 @@ yum erase dnf-automatic -y 2>/dev/null # Almalinux
 
 echo "######### CONFIGURANDO DNS Y RED ########"
 
+# En AL8 supuestamente lo desactiva cPanel al instalar: https://docs.cpanel.net/knowledge-base/general-systems-administration/how-to-disable-network-manager/
+#systemctl stop NetworkManager
+#systemctl disable NetworkManager
+#
+#RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
+#ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
+#
+#grep "^NM_CONTROLLED=" $ETHCFG > /dev/null && (sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG; echo "NM_CONTROLLED=no" >> $ETHCFG)
+#grep "^ONBOOT=" $ETHCFG > /dev/null && (sed -i '/^ONBOOT=.*/d' $ETHCFG; echo "ONBOOT=yes" >> $ETHCFG)
+#
+#systemctl enable network.service
+#systemctl start network.service
+
 echo "Reescribiendo /etc/resolv.conf..."
 
 echo "options timeout:5 attempts:2" > /etc/resolv.conf
