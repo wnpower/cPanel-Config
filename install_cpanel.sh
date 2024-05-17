@@ -37,21 +37,23 @@ yum erase dnf-automatic -y 2>/dev/null # Almalinux
 
 echo "######### CONFIGURANDO DNS Y RED ########"
 
-# En AL8 supuestamente lo desactiva cPanel al instalar pero falla con DHCP y se queda sin red porque no levanta network-scripts y vence el lease
-#https://docs.cpanel.net/knowledge-base/general-systems-administration/how-to-disable-network-manager/
-#https://support.cpanel.net/hc/en-us/articles/360051448574-How-to-disable-NetworkManager-on-systemd-systems
+if grep "release 8" /etc/redhat-release > /dev/null; then
+	# En AL8 se usaba network en vez de NetworkManager
+	#https://docs.cpanel.net/knowledge-base/general-systems-administration/how-to-disable-network-manager/
+	#https://support.cpanel.net/hc/en-us/articles/360051448574-How-to-disable-NetworkManager-on-systemd-systems
 
-systemctl stop NetworkManager
-systemctl disable NetworkManager
+	systemctl stop NetworkManager
+	systemctl disable NetworkManager
 
-RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
-ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
+	RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
+	ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
 
-grep "^NM_CONTROLLED=" $ETHCFG > /dev/null && (sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG; echo "NM_CONTROLLED=no" >> $ETHCFG)
-grep "^ONBOOT=" $ETHCFG > /dev/null && (sed -i '/^ONBOOT=.*/d' $ETHCFG; echo "ONBOOT=yes" >> $ETHCFG)
+	grep "^NM_CONTROLLED=" $ETHCFG > /dev/null && (sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG; echo "NM_CONTROLLED=no" >> $ETHCFG)
+	grep "^ONBOOT=" $ETHCFG > /dev/null && (sed -i '/^ONBOOT=.*/d' $ETHCFG; echo "ONBOOT=yes" >> $ETHCFG)
 
-systemctl enable network.service
-systemctl start network.service
+	systemctl enable network.service
+	systemctl start network.service
+fi
 
 echo "Reescribiendo /etc/resolv.conf..."
 
@@ -918,6 +920,10 @@ whmapi1 php_set_system_default_version version=ea-php81
 # Fix bug systemd --user https://support.cpanel.net/hc/en-us/community/posts/19164685550615-Cron-Jobs-and-usr-lib-systemd-systemd-user-in-Almalinux
 systemctl mask user@.service
 ps axo user:30,pid,comm:100 | grep systemd | grep -v "root\|grep" | awk '{ print $2 }' | xargs kill
+
+# FIX CVE https://access.redhat.com/security/cve/CVE-2024-1086 y https://support.cpanel.net/hc/en-us/articles/360057595213-Kernel-vulnerability-CVE-2020-14386 
+echo "user.max_user_namespaces=0" > /etc/sysctl.d/userns.conf
+sysctl -p /etc/sysctl.d/userns.conf
 
 echo "Limpiando...."
 
