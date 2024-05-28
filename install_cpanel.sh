@@ -55,18 +55,6 @@ if grep "release 8" /etc/redhat-release > /dev/null; then
 	systemctl start network.service
 fi
 
-echo "Reescribiendo /etc/resolv.conf..."
-
-echo "options timeout:5 attempts:2" > /etc/resolv.conf
-echo "nameserver 127.0.0.1" >> /etc/resolv.conf # local
-echo "nameserver 208.67.222.222" >> /etc/resolv.conf # OpenDNS
-echo "nameserver 8.20.247.20" >> /etc/resolv.conf # Comodo
-echo "nameserver 8.8.8.8" >> /etc/resolv.conf # Google
-echo "nameserver 199.85.126.10" >> /etc/resolv.conf # Norton
-echo "nameserver 8.26.56.26" >> /etc/resolv.conf # Comodo
-echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
-echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
-
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
 
 # En CentOS 7 preconfiguro en LTS
@@ -924,6 +912,18 @@ ps axo user:30,pid,comm:100 | grep systemd | grep -v "root\|grep" | awk '{ print
 # FIX CVE https://access.redhat.com/security/cve/CVE-2024-1086 y https://support.cpanel.net/hc/en-us/articles/360057595213-Kernel-vulnerability-CVE-2020-14386 
 echo "user.max_user_namespaces=0" > /etc/sysctl.d/userns.conf
 sysctl -p /etc/sysctl.d/userns.conf
+
+echo "Reescribiendo /etc/resolv.conf..."
+
+echo "options timeout:5 attempts:2" > /etc/resolv.conf
+echo "nameserver 127.0.0.1" >> /etc/resolv.conf # local
+echo "nameserver 208.67.222.222" >> /etc/resolv.conf # OpenDNS
+echo "nameserver 8.20.247.20" >> /etc/resolv.conf # Comodo
+echo "nameserver 8.8.8.8" >> /etc/resolv.conf # Google
+echo "nameserver 199.85.126.10" >> /etc/resolv.conf # Norton
+echo "nameserver 8.26.56.26" >> /etc/resolv.conf # Comodo
+echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
+echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
 
 echo "Limpiando...."
 
