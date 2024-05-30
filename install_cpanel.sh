@@ -120,6 +120,11 @@ whmapi1 sethostname hostname=$(cat /root/hostname) # Fix cambio de hostname por 
 hostnamectl set-hostname $(cat /root/hostname)
 rm -f /root/hostname
 
+if ! free | awk '/^Swap:/ {exit !$2}'; then
+	echo "SWAP no detectada. Configurando..."
+	/usr/local/cpanel/bin/create-swap --size 4G -v # Por defecto 4GB
+fi
+
 echo "####### CONFIGURANDO CSF #######"
 if [ ! -d /etc/csf ]; then
         echo "csf no detectado, descargando!"
