@@ -930,6 +930,10 @@ echo "nameserver 8.26.56.26" >> /etc/resolv.conf # Comodo
 echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
 
+echo "Instalando librerías para jq..."
+yum install oniguruma -y
+yum install libsodium -y
+
 echo "Limpiando...."
 
 rm -f /var/cpanel/nocloudlinux > /dev/null
