@@ -120,8 +120,8 @@ whmapi1 sethostname hostname=$(cat /root/hostname) # Fix cambio de hostname por 
 hostnamectl set-hostname $(cat /root/hostname)
 rm -f /root/hostname
 
-if ! free | awk '/^Swap:/ {exit !$2}'; then
-	echo "SWAP no detectada. Configurando..."
+if ! free | awk '/^Swap:/ {exit (!$2 || ($2<4194300))}'; then
+	echo "SWAP no detectada o menos de 4GB. Configurando..."
 	/usr/local/cpanel/bin/create-swap --size 4G -v # Por defecto 4GB
 fi
 
