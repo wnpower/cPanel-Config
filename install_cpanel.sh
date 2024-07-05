@@ -24,8 +24,9 @@ if [ ! -f /etc/redhat-release ]; then
 	exit 0
 fi
 
-echo "Este script instala y pre-configura cPanel (CTRL + C para cancelar)"
-sleep 10
+echo "Este script instala y pre-configura cPanel sobre un servidor recién instalado"
+echo "NO EJECUTAR EN UN SERVIDOR CON cPanel YA FUNCIONANDO (CTRL + C para cancelar)"
+sleep 30
 
 echo "####### CONFIGURANDO CENTOS #######"
 wget https://raw.githubusercontent.com/wnpower/Linux-Config/master/configure_linux.sh -O "$CWD/configure_linux.sh" && bash "$CWD/configure_linux.sh"
@@ -120,6 +121,17 @@ whmapi1 sethostname hostname=$(cat /root/hostname) # Fix cambio de hostname por 
 hostnamectl set-hostname $(cat /root/hostname)
 rm -f /root/hostname
 
+# Forzar MariaDB en vez de MySQL 8
+if grep "mysql-version=8.0" /var/cpanel/cpanel.config > /dev/null; then
+        dnf -y remove mysql-community-*
+        rm -rf /var/lib/mysql
+        sed -i 's/mysql-version=8.0/mysql-version=10.6/g' /var/cpanel/cpanel.config
+        whmapi1 start_background_mysql_upgrade version=10.6
+
+        sleep 600
+fi
+
+# SWAP
 if ! free | awk '/^Swap:/ {exit (!$2 || ($2<4194300))}'; then
 	echo "SWAP no detectada o menos de 4GB. Configurando..."
 	/usr/local/cpanel/bin/create-swap --size 4G -v # Por defecto 4GB
