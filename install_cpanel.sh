@@ -946,6 +946,9 @@ echo "Instalando librerías para jq..."
 yum install oniguruma -y
 yum install libsodium -y
 
+echo "Instalando locales..."
+dnf install glibc-all-langpacks -y
+
 echo "Limpiando...."
 
 rm -f /var/cpanel/nocloudlinux > /dev/null
