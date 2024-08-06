@@ -425,6 +425,8 @@ else
         sed -i '/@CONFIG@/ a message_size_limit = 40M' /etc/exim.conf.local
 fi
 
+/usr/local/cpanel/libexec/tailwatchd --disable=Cpanel::TailWatch::RecentAuthedMailIpTracker
+
 /scripts/buildeximconf
 
 echo "Instalando paquetes PHP EasyApache 4..."
