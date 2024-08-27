@@ -915,8 +915,8 @@ RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
 ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
 
 if [ -f $ETHCFG ]; then
-	grep "^NM_CONTROLLED=" $ETHCFG > /dev/null && (sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG; echo "NM_CONTROLLED=no" >> $ETHCFG)
-	grep "^ONBOOT=" $ETHCFG > /dev/null && (sed -i '/^ONBOOT=.*/d' $ETHCFG; echo "ONBOOT=yes" >> $ETHCFG)
+	sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG; echo "NM_CONTROLLED=no" >> $ETHCFG
+	sed -i '/^ONBOOT=.*/d' $ETHCFG; echo "ONBOOT=yes" >> $ETHCFG
 fi
 
 echo "Instalando librerías para jq..."
