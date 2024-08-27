@@ -911,13 +911,13 @@ echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
 
 # Configurando network-scripts (si tiene)
-RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
-ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
-
-if [ -f $ETHCFG ]; then
-	sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG; echo "NM_CONTROLLED=no" >> $ETHCFG
-	sed -i '/^ONBOOT=.*/d' $ETHCFG; echo "ONBOOT=yes" >> $ETHCFG
-fi
+#RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
+#ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
+#
+#if [ -f $ETHCFG ]; then
+#	sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG; echo "NM_CONTROLLED=no" >> $ETHCFG
+#	sed -i '/^ONBOOT=.*/d' $ETHCFG; echo "ONBOOT=yes" >> $ETHCFG
+#fi
 
 echo "Instalando librerías para jq..."
 yum install oniguruma -y
