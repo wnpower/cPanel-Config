@@ -36,41 +36,7 @@ echo "Desactivando yum-cron..."
 yum erase yum-cron -y 2>/dev/null # CentOS
 yum erase dnf-automatic -y 2>/dev/null # Almalinux
 
-echo "######### CONFIGURANDO DNS Y RED ########"
-
-if grep "release 8" /etc/redhat-release > /dev/null; then
-	# En AL8 se usaba network en vez de NetworkManager
-	#https://docs.cpanel.net/knowledge-base/general-systems-administration/how-to-disable-network-manager/
-	#https://support.cpanel.net/hc/en-us/articles/360051448574-How-to-disable-NetworkManager-on-systemd-systems
-
-	systemctl stop NetworkManager
-	systemctl disable NetworkManager
-
-	RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
-	ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
-
-	grep "^NM_CONTROLLED=" $ETHCFG > /dev/null && (sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG; echo "NM_CONTROLLED=no" >> $ETHCFG)
-	grep "^ONBOOT=" $ETHCFG > /dev/null && (sed -i '/^ONBOOT=.*/d' $ETHCFG; echo "ONBOOT=yes" >> $ETHCFG)
-
-	systemctl enable network.service
-	systemctl start network.service
-fi
-
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
-
-# En CentOS 7 preconfiguro en LTS
-if grep "release 7" /etc/redhat-release > /dev/null; then
-	echo "CentOS 7 detectado. Se pasa a LTS..."
-
-cat << EOF > /etc/cpupdate.conf
-CPANEL=lts
-RPMUP=daily
-SARULESUP=daily
-STAGING_DIR=/usr/local/cpanel
-UPDATES=daily
-EOF
-
-fi
 
 echo "####### DESACTIVANDO SELINUX #######"
 
@@ -943,6 +909,15 @@ echo "nameserver 199.85.126.10" >> /etc/resolv.conf # Norton
 echo "nameserver 8.26.56.26" >> /etc/resolv.conf # Comodo
 echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
+
+# Configurando network-scripts (si tiene)
+RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
+ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
+
+if [ -f $ETHCFG ]; then
+	grep "^NM_CONTROLLED=" $ETHCFG > /dev/null && (sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG; echo "NM_CONTROLLED=no" >> $ETHCFG)
+	grep "^ONBOOT=" $ETHCFG > /dev/null && (sed -i '/^ONBOOT=.*/d' $ETHCFG; echo "ONBOOT=yes" >> $ETHCFG)
+fi
 
 echo "Instalando librerías para jq..."
 yum install oniguruma -y
