@@ -404,6 +404,7 @@ else # CENTOS 7
         yum install epel-release -y
         yum install libsodium libsodium-devel -y
 fi
+
 yum install -y \
 ea-apache24-mod_proxy_fcgi \
 libcurl-devel \
@@ -411,110 +412,6 @@ openssl-devel \
 unixODBC \
 ea-apache24-mod_version \
 ea-apache24-mod_env \
-ea-php56-php-curl \
-ea-php56-php-fileinfo \
-ea-php56-php-fpm \
-ea-php56-php-gd \
-ea-php56-php-iconv \
-ea-php56-php-ioncube \
-ea-php56-php-intl \
-ea-php56-php-mbstring \
-ea-php56-php-mcrypt \
-ea-php56-php-pdo \
-ea-php56-php-soap \
-ea-php56-php-zip \
-ea-php56-php-opcache \
-ea-php56-php-mysqlnd \
-ea-php56-php-bcmath \
-ea-php56-php-exif \
-ea-php56-php-xmlrpc \
-ea-php56-php-gettext \
-ea-php56-php-gmp \
-ea-php56-php-fpm \
-ea-php56-php-xml \
-ea-php56-php-imap \
-ea-php70-php-curl \
-ea-php70-php-fileinfo \
-ea-php70-php-fpm \
-ea-php70-php-gd \
-ea-php70-php-iconv \
-ea-php70-php-intl \
-ea-php70-php-mbstring \
-ea-php70-php-mcrypt \
-ea-php70-php-pdo \
-ea-php70-php-soap \
-ea-php70-php-xmlrpc \
-ea-php70-php-xml \
-ea-php70-php-zip \
-ea-php70-php-ioncube10 \
-ea-php70-php-opcache \
-ea-php70-php-mysqlnd \
-ea-php70-php-bcmath \
-ea-php70-php-exif \
-ea-php70-php-gettext \
-ea-php70-php-gmp \
-ea-php70-php-fpm \
-ea-php70-php-imap \
-ea-php71 \
-ea-php71-pear \
-ea-php71-php-cli \
-ea-php71-php-common \
-ea-php71-php-curl \
-ea-php71-php-devel \
-ea-php71-php-exif \
-ea-php71-php-fileinfo \
-ea-php71-php-fpm \
-ea-php71-php-ftp \
-ea-php71-php-gd \
-ea-php71-php-iconv \
-ea-php71-php-intl \
-ea-php71-php-litespeed \
-ea-php71-php-mbstring \
-ea-php71-php-mcrypt \
-ea-php71-php-mysqlnd \
-ea-php71-php-odbc \
-ea-php71-php-opcache \
-ea-php71-php-pdo \
-ea-php71-php-posix \
-ea-php71-php-soap \
-ea-php71-php-zip \
-ea-php71-runtime \
-ea-php71-php-bcmath \
-ea-php71-php-ioncube10 \
-ea-php71-php-xmlrpc \
-ea-php71-php-gettext \
-ea-php71-php-gmp \
-ea-php71-php-xml \
-ea-php71-php-imap \
-ea-php72 \
-ea-php72-pear \
-ea-php72-php-cli \
-ea-php72-php-common \
-ea-php72-php-curl \
-ea-php72-php-devel \
-ea-php72-php-exif \
-ea-php72-php-fileinfo \
-ea-php72-php-fpm \
-ea-php72-php-ftp \
-ea-php72-php-gd \
-ea-php72-php-iconv \
-ea-php72-php-intl \
-ea-php72-php-litespeed \
-ea-php72-php-mbstring \
-ea-php72-php-mysqlnd \
-ea-php72-php-opcache \
-ea-php72-php-pdo \
-ea-php72-php-posix \
-ea-php72-php-soap \
-ea-php72-php-zip \
-ea-php72-runtime \
-ea-php72-php-bcmath \
-ea-php72-php-ioncube10 \
-ea-php72-php-xmlrpc \
-ea-php72-php-gettext \
-ea-php72-php-gmp \
-ea-php72-php-xml \
-ea-php72-php-imap \
 ea-php73 \
 ea-php73-pear \
 ea-php73-php-cli \
@@ -523,7 +420,6 @@ ea-php73-php-curl \
 ea-php73-php-devel \
 ea-php73-php-exif \
 ea-php73-php-fileinfo \
-ea-php73-php-fpm \
 ea-php73-php-ftp \
 ea-php73-php-gd \
 ea-php73-php-iconv \
@@ -544,6 +440,7 @@ ea-php73-php-gettext \
 ea-php73-php-gmp \
 ea-php73-php-xml \
 ea-php73-php-imap \
+ea-php73-php-calendar \
 ea-php74 \
 ea-php74-pear \
 ea-php74-php-cli \
@@ -552,7 +449,6 @@ ea-php74-php-curl \
 ea-php74-php-devel \
 ea-php74-php-exif \
 ea-php74-php-fileinfo \
-ea-php74-php-fpm \
 ea-php74-php-ftp \
 ea-php74-php-gd \
 ea-php74-php-iconv \
@@ -573,6 +469,8 @@ ea-php74-php-gettext \
 ea-php74-php-gmp \
 ea-php74-php-xml \
 ea-php74-php-imap \
+ea-php74-php-sodium \
+ea-php74-php-calendar \
 ea-php80 \
 ea-php80-pear \
 ea-php80-php-cli \
@@ -581,7 +479,6 @@ ea-php80-php-curl \
 ea-php80-php-devel \
 ea-php80-php-exif \
 ea-php80-php-fileinfo \
-ea-php80-php-fpm \
 ea-php80-php-ftp \
 ea-php80-php-gd \
 ea-php80-php-iconv \
@@ -600,6 +497,8 @@ ea-php80-php-gettext \
 ea-php80-php-gmp \
 ea-php80-php-xml \
 ea-php80-php-imap \
+ea-php80-php-sodium \
+ea-php80-php-calendar \
 ea-php81 \
 ea-php81-pear \
 ea-php81-php-cli \
@@ -626,6 +525,9 @@ ea-php81-php-gettext \
 ea-php81-php-gmp \
 ea-php81-php-xml \
 ea-php81-php-imap \
+ea-php81-php-sodium \
+ea-php81-php-ioncube12 \
+ea-php81-php-calendar \
 ea-php82 \
 ea-php82-pear \
 ea-php82-php-cli \
@@ -653,6 +555,37 @@ ea-php82-php-gmp \
 ea-php82-php-xml \
 ea-php82-php-imap \
 ea-php82-php-sodium \
+ea-php82-php-ioncube13 \
+ea-php82-php-calendar \
+ea-php83 \
+ea-php83-pear \
+ea-php83-php-cli \
+ea-php83-php-common \
+ea-php83-php-curl \
+ea-php83-php-devel \
+ea-php83-php-exif \
+ea-php83-php-fileinfo \
+ea-php83-php-ftp \
+ea-php83-php-gd \
+ea-php83-php-iconv \
+ea-php83-php-intl \
+ea-php83-php-litespeed \
+ea-php83-php-mbstring \
+ea-php83-php-mysqlnd \
+ea-php83-php-opcache \
+ea-php83-php-pdo \
+ea-php83-php-posix \
+ea-php83-php-soap \
+ea-php83-php-zip \
+ea-php83-runtime \
+ea-php83-php-bcmath \
+ea-php83-php-gettext \
+ea-php83-php-gmp \
+ea-php83-php-xml \
+ea-php83-php-imap \
+ea-php83-php-sodium \
+ea-php83-php-ioncube14 \
+ea-php83-php-calendar \
 --skip-broken
 
 echo "Configurando PHP EasyApache 4..."
@@ -686,15 +619,13 @@ EOF
 /scripts/restartsrv_apache_php_fpm
 
 echo "Configurando Handlers..."
-whmapi1 php_set_handler version=ea-php56 handler=cgi
-whmapi1 php_set_handler version=ea-php70 handler=cgi
-whmapi1 php_set_handler version=ea-php71 handler=cgi
-whmapi1 php_set_handler version=ea-php72 handler=cgi
 whmapi1 php_set_handler version=ea-php73 handler=cgi
 whmapi1 php_set_handler version=ea-php74 handler=cgi
 whmapi1 php_set_handler version=ea-php80 handler=cgi
 whmapi1 php_set_handler version=ea-php81 handler=cgi
-whmapi1 php_set_system_default_version version=ea-php74
+whmapi1 php_set_handler version=ea-php82 handler=cgi
+whmapi1 php_set_handler version=ea-php83 handler=cgi
+whmapi1 php_set_system_default_version version=ea-php82
 
 echo "Configurando PHP-FPM..."
 whmapi1 php_set_default_accounts_to_fpm default_accounts_to_fpm=0
