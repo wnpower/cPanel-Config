@@ -825,10 +825,6 @@ whmapi1 php_set_system_default_version version=ea-php81
 systemctl mask user@.service
 ps axo user:30,pid,comm:100 | grep systemd | grep -v "root\|grep" | awk '{ print $2 }' | xargs kill
 
-# FIX CVE https://access.redhat.com/security/cve/CVE-2024-1086 y https://support.cpanel.net/hc/en-us/articles/360057595213-Kernel-vulnerability-CVE-2020-14386 
-echo "user.max_user_namespaces=0" > /etc/sysctl.d/userns.conf
-sysctl -p /etc/sysctl.d/userns.conf
-
 echo "Reescribiendo /etc/resolv.conf..."
 
 echo "options timeout:5 attempts:2" > /etc/resolv.conf
