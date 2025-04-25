@@ -56,9 +56,9 @@ if [ -f /usr/local/cpanel/cpanel ]; then
 else
 	hostname -f > /root/hostname
 
-	# INSTALAR MARIADB 11.4 POR DEFECTO https://cloudlinux.zendesk.com/hc/en-us/articles/360020599839
+	# INSTALAR MARIADB 10.11 POR DEFECTO https://cloudlinux.zendesk.com/hc/en-us/articles/360020599839
 	mkdir -p /root/cpanel_profile/
-	echo "mysql-version=11.4" >> /root/cpanel_profile/cpanel.config
+	echo "mysql-version=10.11" >> /root/cpanel_profile/cpanel.config
 
 	cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest --skip-cloudlinux
 
@@ -89,11 +89,11 @@ hostnamectl set-hostname $(cat /root/hostname)
 rm -f /root/hostname
 
 # Forzar MariaDB en vez de MySQL
-if ! grep "mysql-version=11.4" /var/cpanel/cpanel.config > /dev/null; then
+if ! grep "mysql-version=10.11" /var/cpanel/cpanel.config > /dev/null; then
         dnf -y remove mysql-community-*
         rm -rf /var/lib/mysql
-        sed -i 's/mysql-version=.*/mysql-version=11.4/g' /var/cpanel/cpanel.config
-        whmapi1 start_background_mysql_upgrade version=11.4
+        sed -i 's/mysql-version=.*/mysql-version=10.11/g' /var/cpanel/cpanel.config
+        whmapi1 start_background_mysql_upgrade version=10.11
 
         sleep 600
 fi
