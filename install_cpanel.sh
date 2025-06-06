@@ -68,9 +68,10 @@ else
 fi
 echo "####### FIN INSTALANDO CPANEL #######"
 
+PUBLIC_IP=$(curl -m 10 -L checkip.amazonaws.com 2>/dev/null)
 echo "####### VERIFICANDO LICENCIA #######"
 i=0
-while ! (curl -m 10 -L "https://verify.cpanel.net?ip=$(curl -m 10 -L checkip.amazonaws.com 2>/dev/null)" 2>/dev/null | grep -v "active on" | grep "active" > /dev/null); do
+while ! (curl -m 10 -L "https://verify.cpanel.net?ip=$PUBLIC_IP" 2>/dev/null | grep -v "active on" | grep "active" > /dev/null); do
 	if [ $i -gt 30 ]; then
         	echo "Se reintentó más de $i veces, no se puede seguir. Licenciá la IP y luego ejecutá este script de nuevo."
         	exit 1
@@ -270,6 +271,9 @@ sed -i '/^NS3\ .*/d' /etc/wwwacct.conf
 echo "NS ns1.$HOSTNAME_LONG" >> /etc/wwwacct.conf
 echo "NS2 ns2.$HOSTNAME_LONG" >> /etc/wwwacct.conf
 
+echo "Configurando IP default para cuentas..."
+sed -i "s/^ADDR .*/ADDR $PUBLIC_IP/" /etc/wwwacct.conf
+
 echo "Configurando FTP..."
 sed -i '/^MaxClientsPerIP:.*/d' /var/cpanel/conf/pureftpd/local > /dev/null; echo "MaxClientsPerIP: 30" >> /var/cpanel/conf/pureftpd/local
 sed -i '/^RootPassLogins:.*/d' /var/cpanel/conf/pureftpd/local > /dev/null; echo "RootPassLogins: 'no'" >> /var/cpanel/conf/pureftpd/local
@@ -397,14 +401,7 @@ fi
 /scripts/buildeximconf
 
 echo "Instalando paquetes PHP EasyApache 4..."
-if grep -i "Almalinux" /etc/redhat-release > /dev/null; then
-        # https://support.cpanel.net/hc/en-us/articles/14191689268375-How-to-Install-the-Sodium-Cryptographic-Library-libsodium-and-PHP-Extension-on-AlmaLinux-8-and-CloudLinux-8
-        dnf install libsodium libsodium-devel -y
-else # CENTOS 7
-        # https://support.cpanel.net/hc/en-us/articles/360056786594-How-to-Install-the-Sodium-Cryptographic-Library-libsodium-and-PHP-Extension-on-CentOS-7-and-CloudLinux-7
-        yum install epel-release -y
-        yum install libsodium libsodium-devel -y
-fi
+dnf install libsodium libsodium-devel -y
 
 yum install -y \
 ea-apache24-mod_proxy_fcgi \
@@ -587,6 +584,33 @@ ea-php83-php-imap \
 ea-php83-php-sodium \
 ea-php83-php-ioncube14 \
 ea-php83-php-calendar \
+ea-php84 \
+ea-php84-pear \
+ea-php84-php-cli \
+ea-php84-php-common \
+ea-php84-php-curl \
+ea-php84-php-devel \
+ea-php84-php-exif \
+ea-php84-php-fileinfo \
+ea-php84-php-ftp \
+ea-php84-php-gd \
+ea-php84-php-iconv \
+ea-php84-php-intl \
+ea-php84-php-litespeed \
+ea-php84-php-mbstring \
+ea-php84-php-mysqlnd \
+ea-php84-php-opcache \
+ea-php84-php-pdo \
+ea-php84-php-posix \
+ea-php84-php-soap \
+ea-php84-php-zip \
+ea-php84-runtime \
+ea-php84-php-bcmath \
+ea-php84-php-gettext \
+ea-php84-php-gmp \
+ea-php84-php-xml \
+ea-php84-php-sodium \
+ea-php84-php-calendar \
 --skip-broken
 
 echo "Configurando PHP EasyApache 4..."
@@ -626,7 +650,8 @@ whmapi1 php_set_handler version=ea-php80 handler=cgi
 whmapi1 php_set_handler version=ea-php81 handler=cgi
 whmapi1 php_set_handler version=ea-php82 handler=cgi
 whmapi1 php_set_handler version=ea-php83 handler=cgi
-whmapi1 php_set_system_default_version version=ea-php82
+whmapi1 php_set_handler version=ea-php84 handler=cgi
+whmapi1 php_set_system_default_version version=ea-php84
 
 echo "Configurando PHP-FPM..."
 whmapi1 php_set_default_accounts_to_fpm default_accounts_to_fpm=0
@@ -837,15 +862,6 @@ echo "nameserver 199.85.126.10" >> /etc/resolv.conf # Norton
 echo "nameserver 8.26.56.26" >> /etc/resolv.conf # Comodo
 echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
-
-# Configurando network-scripts (si tiene)
-#RED=$(route -n | awk '$1 == "0.0.0.0" {print $8}')
-#ETHCFG="/etc/sysconfig/network-scripts/ifcfg-$RED"
-#
-#if [ -f $ETHCFG ]; then
-#	sed -i '/^NM_CONTROLLED=.*/d' $ETHCFG; echo "NM_CONTROLLED=no" >> $ETHCFG
-#	sed -i '/^ONBOOT=.*/d' $ETHCFG; echo "ONBOOT=yes" >> $ETHCFG
-#fi
 
 echo "Instalando librerías para jq..."
 yum install oniguruma -y
