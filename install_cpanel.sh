@@ -870,6 +870,9 @@ yum install libsodium -y
 echo "Instalando locales..."
 dnf install glibc-all-langpacks -y
 
+echo "Varios finales..."
+whmapi1 accept_eula
+
 echo "Limpiando...."
 
 rm -f /var/cpanel/nocloudlinux > /dev/null
