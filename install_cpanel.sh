@@ -320,7 +320,6 @@ whmapi1 set_tweaksetting key=php_upload_max_filesize value=100
 whmapi1 set_tweaksetting key=empty_trash_days value=30
 whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
 whmapi1 set_tweaksetting key=proxysubdomainsoverride value=0
-whmapi1 set_tweaksetting key=account_login_access value=user
 
 # DESACTIVAR RESET DE PASSWORD POR MAIL
 whmapi1 set_tweaksetting key=resetpass value=0
