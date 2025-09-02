@@ -122,7 +122,10 @@ if [ ! -d /etc/csf ]; then
         yum remove firewalld -y
         yum -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
 
-	cd /root && rm -f ./csf.tgz; wget https://download.configserver.com/csf.tgz && tar xvfz ./csf.tgz && cd ./csf && sh ./install.sh
+	#cd /root && rm -f ./csf.tgz; wget https://download.configserver.com/csf.tgz && tar xvfz ./csf.tgz && cd ./csf && sh ./install.sh
+	# Cambio de URL al repo tras deprecación de CSF https://github.com/centminmod/configserver-scripts/blob/main/README-gpl-csf.md
+        cd /usr/src; wget https://github.com/waytotheweb/scripts/raw/refs/heads/main/csf.tgz; tar -xzf csf.tgz; cd csf; sh install.sh
+        sed -i 's/AUTO_UPDATES = .*/AUTO_UPDATES = "0"/' /etc/csf/csf.conf # desactivo auto-updates
 fi
 
 echo " Configurando CSF..."
