@@ -89,6 +89,9 @@ whmapi1 sethostname hostname=$(cat /root/hostname) # Fix cambio de hostname por 
 hostnamectl set-hostname $(cat /root/hostname)
 rm -f /root/hostname
 
+# Detección y configuración NAT
+/usr/local/cpanel/scripts/build_cpnat
+
 # Forzar MariaDB en vez de MySQL
 if ! grep "mysql-version=10.11" /var/cpanel/cpanel.config > /dev/null; then
         dnf -y remove mysql-community-*
