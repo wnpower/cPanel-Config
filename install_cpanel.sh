@@ -33,8 +33,8 @@ wget https://raw.githubusercontent.com/wnpower/Linux-Config/master/configure_lin
 
 echo "####### PRE-CONFIGURACION CPANEL ##########"
 echo "Desactivando yum-cron..."
-yum erase yum-cron -y 2>/dev/null # CentOS
-yum erase dnf-automatic -y 2>/dev/null # Almalinux
+dnf erase yum-cron -y 2>/dev/null # CentOS
+dnf erase dnf-automatic -y 2>/dev/null # Almalinux
 
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
 
@@ -43,9 +43,9 @@ echo "####### DESACTIVANDO SELINUX #######"
 # PRE-REQUISITOS PARA INSTALAR cPANEL
 sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/sysconfig/selinux 2>/dev/null
 setenforce 0
-yum remove setroubleshoot* -y
-yum install crontabs cronie cronie-anacron -y
-yum install openldap-compat -y # Lo necesita servicio cpanel_php_fpm AL9
+dnf remove setroubleshoot* -y
+dnf install crontabs cronie cronie-anacron -y
+dnf install openldap-compat -y # Lo necesita servicio cpanel_php_fpm AL9
 
 echo "####### FIN DESACTIVANDO SELINUX #######"
 
@@ -122,8 +122,8 @@ if [ ! -d /etc/csf ]; then
         systemctl disable firewalld
         systemctl stop firewalld
 
-        yum remove firewalld -y
-        yum -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
+        dnf remove firewalld -y
+        dnf -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
 
 	#cd /root && rm -f ./csf.tgz; wget https://download.configserver.com/csf.tgz && tar xvfz ./csf.tgz && cd ./csf && sh ./install.sh
 	# Cambio de URL al repo tras deprecación de CSF https://github.com/centminmod/configserver-scripts/blob/main/README-gpl-csf.md
@@ -132,8 +132,8 @@ if [ ! -d /etc/csf ]; then
 fi
 
 echo " Configurando CSF..."
-yum remove firewalld -y
-yum -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
+dnf remove firewalld -y
+dnf -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
 
 sed -i 's/^TESTING = .*/TESTING = "0"/g' /etc/csf/csf.conf
 sed -i 's/^ICMP_IN = .*/ICMP_IN = "0"/g' /etc/csf/csf.conf
@@ -339,7 +339,7 @@ sed -i 's/^minpwstrength=.*/minpwstrength=70/' /var/cpanel/cpanel.config
 
 # CONFIGURACIONES QUE NO SE PUEDEN HACER POR CONSOLA
 echo "Configurando lo inconfigurable desde consola..."
-yum install -y curl
+dnfinstall -y curl
 
 touch $CWD/wpwhmcookie.txt
 SESS_CREATE=$(whmapi1 create_user_session user=root service=whostmgrd)
@@ -410,7 +410,7 @@ fi
 echo "Instalando paquetes PHP EasyApache 4..."
 dnf install libsodium libsodium-devel -y
 
-yum install -y \
+dnf install -y \
 ea-apache24-mod_proxy_fcgi \
 libcurl-devel \
 openssl-devel \
@@ -733,15 +733,9 @@ whmapi1 addpkg name=default featurelist=default quota=$QUOTA cgi=0 frontpage=0 l
 
 echo "Configurando hora del servidor..."
 
-if grep -i "Almalinux" /etc/redhat-release > /dev/null; then
-        echo "Instalando Chrony..."
-        yum install chrony -y
-        systemctl enable chronyd
-else # CentOS 7
-        yum install ntpdate -y
-        echo "Sincronizando fecha con pool.ntp.org..."
-        ntpdate 0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org 0.south-america.pool.ntp.org
-fi
+echo "Instalando Chrony..."
+dnf install chrony -y
+systemctl enable chronyd
 
 echo "Seteando Timezone..."
 timedatectl set-timezone "America/Argentina/Buenos_Aires"
@@ -807,7 +801,7 @@ chmod 755 /usr/bin/wget
 chmod 755 /usr/bin/curl 
 
 echo "Instalando PHP ImageMagick..."
-yum -y install ImageMagick-devel ImageMagick-c++-devel ImageMagick-perl
+dnf -y install ImageMagick-devel ImageMagick-c++-devel ImageMagick-perl
 
 for phpver in $(ls -1 /opt/cpanel/ |grep ea-php | sed 's/ea-php//g') ; do
 
@@ -871,11 +865,15 @@ echo "nameserver 209.244.0.3" >> /etc/resolv.conf # Level3
 echo "nameserver 8.8.4.4" >> /etc/resolv.conf # Google
 
 echo "Instalando librerías para jq..."
-yum install oniguruma -y
-yum install libsodium -y
+dnf install oniguruma -y
+dnf install libsodium -y
+dnf install jq -y
 
 echo "Instalando locales..."
 dnf install glibc-all-langpacks -y
+
+echo "Instalando otros paquetes..."
+dnf install ipcalc -y
 
 echo "Varios finales..."
 whmapi1 accept_eula
