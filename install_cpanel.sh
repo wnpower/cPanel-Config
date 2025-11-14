@@ -875,6 +875,9 @@ dnf install glibc-all-langpacks -y
 echo "Instalando otros paquetes..."
 dnf install ipcalc -y
 
+echo "Desactivando Bloatware..."
+whmapi1 EcosystemFeatures/local_disable plugin=cpanel-monitoring-plugin # https://support.cpanel.net/hc/en-us/articles/28456122745623-How-to-disable-Server-Monitoring-360-Monitoring
+
 echo "Varios finales..."
 whmapi1 accept_eula
 
