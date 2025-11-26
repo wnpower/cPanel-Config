@@ -339,7 +339,7 @@ sed -i 's/^minpwstrength=.*/minpwstrength=70/' /var/cpanel/cpanel.config
 
 # CONFIGURACIONES QUE NO SE PUEDEN HACER POR CONSOLA
 echo "Configurando lo inconfigurable desde consola..."
-dnfinstall -y curl
+dnf install -y curl
 
 touch $CWD/wpwhmcookie.txt
 SESS_CREATE=$(whmapi1 create_user_session user=root service=whostmgrd)
