@@ -407,6 +407,10 @@ fi
 +sed -i.bak 's/^suspended_account_deliveries=.*$/suspended_account_deliveries=block/' /etc/exim.conf.localopts
 +sed -i.bak 's/^\*.*/\*\: \:fail\: 525 5\.7\.13 Disabled recipient address/' /etc/exim_suspended_list
 
+# https://support.cpanel.net/hc/en-us/articles/36160643334807-Email-message-headers-X-Ham-Reports-and-X-Spam-Reports-output-is-not-readable
+sed -i 's|rfc2047:\${\(.*\)}|\1|' /usr/local/cpanel/etc/exim/acls/ACL_SPAM_SCAN_BLOCK/default_spam_scan
+sed -i 's|\${headerwrap_130:\(.*\)}|\1|' /usr/local/cpanel/etc/exim/acls/ACL_SPAM_SCAN_BLOCK/default_spam_scan
+
 /usr/local/cpanel/libexec/tailwatchd --disable=Cpanel::TailWatch::RecentAuthedMailIpTracker
 
 /scripts/buildeximconf
