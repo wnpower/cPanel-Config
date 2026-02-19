@@ -36,6 +36,15 @@ echo "Desactivando yum-cron..."
 dnf erase yum-cron -y 2>/dev/null # CentOS
 dnf erase dnf-automatic -y 2>/dev/null # Almalinux
 
+echo "######### INICIO CONFIGURANDO DNS Y RED ########"
+echo "Deshabilitando IPv6 ...."
+
+sed -i '/net.ipv6.conf.*.disable_ipv6/d' /etc/sysctl.conf
+echo "net.ipv6.conf.all.disable_ipv6 = 1 # Disable IPv6" >> /etc/sysctl.conf
+echo "net.ipv6.conf.default.disable_ipv6 = 1 # Disable IPv6" >> /etc/sysctl.conf
+
+sysctl -p
+
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
 
 echo "####### DESACTIVANDO SELINUX #######"
