@@ -898,6 +898,16 @@ whmapi1 EcosystemFeatures/local_disable plugin=cpanel-monitoring-plugin # https:
 echo "Varios finales..."
 whmapi1 accept_eula
 
+# Desactivar cartel "Site Publisher has been deprecated":
+sed -i "/<\!-- Disable-SitePublisherNote -->/,/<\!-- Disable-SitePublisherNote -->/d" /var/cpanel/customizations/content_includes/cpanel_jupiter_header_after.html.tt
+
+echo '
+<!-- Disable-SitePublisherNote -->
+<script>
+document.cookie = "cpanel_hideSitePublisherDeprecationNotice=yes;path=/";
+</script>
+<!-- Disable-SitePublisherNote -->' >> /var/cpanel/customizations/content_includes/cpanel_jupiter_header_after.html.tt
+
 echo "Limpiando...."
 
 rm -f /var/cpanel/nocloudlinux > /dev/null
