@@ -62,6 +62,9 @@ echo "####### INSTALANDO CPANEL #######"
 if [ -f /usr/local/cpanel/cpanel ]; then
         echo "cPanel ya detectado, no se instala, sólo se configura (CTRL + C para cancelar)"
         sleep 10
+
+	echo "Actualizando por las dudas..."
+	/script/upcp
 else
 	hostname -f > /root/hostname
 
@@ -134,10 +137,7 @@ if [ ! -d /etc/csf ]; then
         dnf remove firewalld -y
         dnf -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
 
-	#cd /root && rm -f ./csf.tgz; wget https://download.configserver.com/csf.tgz && tar xvfz ./csf.tgz && cd ./csf && sh ./install.sh
-	# Cambio de URL al repo tras deprecación de CSF https://github.com/centminmod/configserver-scripts/blob/main/README-gpl-csf.md
-        cd /usr/src; wget https://github.com/waytotheweb/scripts/raw/refs/heads/main/csf.tgz; tar -xzf csf.tgz; cd csf; sh install.sh
-        sed -i 's/AUTO_UPDATES = .*/AUTO_UPDATES = "0"/' /etc/csf/csf.conf # desactivo auto-updates
+	dnf install cpanel-csf -y
 fi
 
 echo " Configurando CSF..."
