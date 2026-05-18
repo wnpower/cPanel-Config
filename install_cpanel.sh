@@ -908,6 +908,18 @@ document.cookie = "cpanel_hideSitePublisherDeprecationNotice=yes;path=/";
 </script>
 <!-- Disable-SitePublisherNote -->' >> /var/cpanel/customizations/content_includes/cpanel_jupiter_header_after.html.tt
 
+
+# Extra CPU para cpuwatch (el 50% más o 2 si no puede detectar la cant. de nucleos)
+CPUS=$(grep -c "^processor" /proc/cpuinfo 2>/dev/null)
+
+if [[ "$CPUS" =~ ^[0-9]+$ ]] && [ "$CPUS" -gt 0 ]; then
+    EXTRA=$((CPUS / 2))
+else
+    EXTRA=2
+fi
+
+whmapi1 set_tweaksetting key='extracpus' value="$EXTRA"
+
 echo "Limpiando...."
 
 rm -f /var/cpanel/nocloudlinux > /dev/null
