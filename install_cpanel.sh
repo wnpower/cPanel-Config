@@ -138,11 +138,10 @@ if [ ! -d /etc/csf ]; then
         dnf -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
 
 	dnf install cpanel-csf -y
+	echo "" > /etc/csf/downloadservers # Quedan vestigios de servidores viejos de update
 fi
 
 echo " Configurando CSF..."
-dnf remove firewalld -y
-dnf -y install iptables-services wget perl unzip net-tools perl-libwww-perl perl-LWP-Protocol-https perl-GDGraph
 
 sed -i 's/^TESTING = .*/TESTING = "0"/g' /etc/csf/csf.conf
 sed -i 's/^ICMP_IN = .*/ICMP_IN = "0"/g' /etc/csf/csf.conf
