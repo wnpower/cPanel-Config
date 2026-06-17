@@ -634,6 +634,35 @@ ea-php84-php-gmp \
 ea-php84-php-xml \
 ea-php84-php-sodium \
 ea-php84-php-calendar \
+ea-php84-php-ioncube14 \
+ea-php85 \
+ea-php85-pear \
+ea-php85-php-cli \
+ea-php85-php-common \
+ea-php85-php-curl \
+ea-php85-php-devel \
+ea-php85-php-exif \
+ea-php85-php-fileinfo \
+ea-php85-php-ftp \
+ea-php85-php-gd \
+ea-php85-php-iconv \
+ea-php85-php-intl \
+ea-php85-php-litespeed \
+ea-php85-php-mbstring \
+ea-php85-php-mysqlnd \
+ea-php85-php-opcache \
+ea-php85-php-pdo \
+ea-php85-php-posix \
+ea-php85-php-soap \
+ea-php85-php-zip \
+ea-php85-runtime \
+ea-php85-php-bcmath \
+ea-php85-php-gettext \
+ea-php85-php-gmp \
+ea-php85-php-xml \
+ea-php85-php-sodium \
+ea-php85-php-calendar \
+ea-php85-php-ioncube15 \
 --skip-broken
 
 echo "Configurando PHP EasyApache 4..."
