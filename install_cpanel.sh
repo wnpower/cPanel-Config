@@ -335,6 +335,7 @@ whmapi1 set_tweaksetting key=empty_trash_days value=30
 whmapi1 set_tweaksetting key=publichtmlsubsonly value=0
 whmapi1 set_tweaksetting key=proxysubdomainsoverride value=0
 whmapi1 set_tweaksetting key=display_cpanel_promotions value=0
+whmapi1 set_tweaksetting key=create_account_dmarc value=1
 
 # DESACTIVAR RESET DE PASSWORD POR MAIL
 whmapi1 set_tweaksetting key=resetpass value=0
