@@ -952,7 +952,10 @@ whmapi1 set_tweaksetting key='extracpus' value="$EXTRA"
 # Desactivar auto-instalación WP-Toolkit
 # https://support.cpanel.net/hc/en-us/community/posts/34544689564311-Wp-Toolbox-WordPress-Plugin-Auto-install
 sed -i '/installIntegrationPluginToNewSites.*/d' /usr/local/cpanel/3rdparty/wp-toolkit/var/etc/config.ini 2>/dev/null
+sed -i '/rolloutIntegrationPluginToExistingSites.*/d' /usr/local/cpanel/3rdparty/wp-toolkit/var/etc/config.ini 2>/dev/null
+
 echo "installIntegrationPluginToNewSites = false" >> /usr/local/cpanel/3rdparty/wp-toolkit/var/etc/config.ini
+echo "rolloutIntegrationPluginToExistingSites = false" >> /usr/local/cpanel/3rdparty/wp-toolkit/var/etc/config.ini
 
 echo "Limpiando...."
 
