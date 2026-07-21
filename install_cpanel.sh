@@ -493,34 +493,6 @@ ea-php74-php-xml \
 ea-php74-php-imap \
 ea-php74-php-sodium \
 ea-php74-php-calendar \
-ea-php80 \
-ea-php80-pear \
-ea-php80-php-cli \
-ea-php80-php-common \
-ea-php80-php-curl \
-ea-php80-php-devel \
-ea-php80-php-exif \
-ea-php80-php-fileinfo \
-ea-php80-php-ftp \
-ea-php80-php-gd \
-ea-php80-php-iconv \
-ea-php80-php-intl \
-ea-php80-php-litespeed \
-ea-php80-php-mbstring \
-ea-php80-php-mysqlnd \
-ea-php80-php-opcache \
-ea-php80-php-pdo \
-ea-php80-php-posix \
-ea-php80-php-soap \
-ea-php80-php-zip \
-ea-php80-runtime \
-ea-php80-php-bcmath \
-ea-php80-php-gettext \
-ea-php80-php-gmp \
-ea-php80-php-xml \
-ea-php80-php-imap \
-ea-php80-php-sodium \
-ea-php80-php-calendar \
 ea-php81 \
 ea-php81-pear \
 ea-php81-php-cli \
@@ -699,7 +671,6 @@ EOF
 echo "Configurando Handlers..."
 whmapi1 php_set_handler version=ea-php73 handler=cgi
 whmapi1 php_set_handler version=ea-php74 handler=cgi
-whmapi1 php_set_handler version=ea-php80 handler=cgi
 whmapi1 php_set_handler version=ea-php81 handler=cgi
 whmapi1 php_set_handler version=ea-php82 handler=cgi
 whmapi1 php_set_handler version=ea-php83 handler=cgi
