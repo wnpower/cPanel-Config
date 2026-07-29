@@ -805,9 +805,6 @@ whmapi1 participate_in_analytics enabled=0
 echo "Corrigiendo RPMs de cPanel..." # A veces queda alguno corrupto
 /usr/local/cpanel/scripts/check_cpanel_pkgs --fix
 
-echo "Seteando versión default de PHP global..."
-whmapi1 php_set_system_default_version version=ea-php81
-
 # Fix bug systemd --user https://support.cpanel.net/hc/en-us/community/posts/19164685550615-Cron-Jobs-and-usr-lib-systemd-systemd-user-in-Almalinux
 systemctl mask user@.service
 ps axo user:30,pid,comm:100 | grep systemd | grep -v "root\|grep" | awk '{ print $2 }' | xargs kill
