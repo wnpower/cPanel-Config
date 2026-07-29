@@ -32,8 +32,7 @@ echo "####### CONFIGURANDO CENTOS #######"
 wget https://raw.githubusercontent.com/wnpower/Linux-Config/master/configure_linux.sh -O "$CWD/configure_linux.sh" && bash "$CWD/configure_linux.sh"
 
 echo "####### PRE-CONFIGURACION CPANEL ##########"
-echo "Desactivando yum-cron..."
-dnf erase yum-cron -y 2>/dev/null # CentOS
+echo "Desactivando dnf-automatic..."
 dnf erase dnf-automatic -y 2>/dev/null # Almalinux
 
 echo "######### INICIO CONFIGURANDO DNS Y RED ########"
@@ -97,9 +96,11 @@ done
 
 echo "####### FIN VERIFICANDO LICENCIA #######"
 
-whmapi1 sethostname hostname=$(cat /root/hostname) # Fix cambio de hostname por cprapid.com cpanel v90 https://docs.cpanel.net/knowledge-base/dns/automatically-issued-hostnames/
-hostnamectl set-hostname $(cat /root/hostname)
-rm -f /root/hostname
+if [ -f /root/hostname ]; then
+	whmapi1 sethostname hostname=$(cat /root/hostname) # Fix cambio de hostname por cprapid.com cpanel v90 https://docs.cpanel.net/knowledge-base/dns/automatically-issued-hostnames/
+	hostnamectl set-hostname $(cat /root/hostname)
+	rm -f /root/hostname
+fi
 
 # Detección y configuración NAT
 /usr/local/cpanel/scripts/build_cpnat
@@ -434,65 +435,6 @@ openssl-devel \
 unixODBC \
 ea-apache24-mod_version \
 ea-apache24-mod_env \
-ea-php73 \
-ea-php73-pear \
-ea-php73-php-cli \
-ea-php73-php-common \
-ea-php73-php-curl \
-ea-php73-php-devel \
-ea-php73-php-exif \
-ea-php73-php-fileinfo \
-ea-php73-php-ftp \
-ea-php73-php-gd \
-ea-php73-php-iconv \
-ea-php73-php-intl \
-ea-php73-php-litespeed \
-ea-php73-php-mbstring \
-ea-php73-php-mysqlnd \
-ea-php73-php-opcache \
-ea-php73-php-pdo \
-ea-php73-php-posix \
-ea-php73-php-soap \
-ea-php73-php-zip \
-ea-php73-runtime \
-ea-php73-php-bcmath \
-ea-php73-php-ioncube10 \
-ea-php73-php-xmlrpc \
-ea-php73-php-gettext \
-ea-php73-php-gmp \
-ea-php73-php-xml \
-ea-php73-php-imap \
-ea-php73-php-calendar \
-ea-php74 \
-ea-php74-pear \
-ea-php74-php-cli \
-ea-php74-php-common \
-ea-php74-php-curl \
-ea-php74-php-devel \
-ea-php74-php-exif \
-ea-php74-php-fileinfo \
-ea-php74-php-ftp \
-ea-php74-php-gd \
-ea-php74-php-iconv \
-ea-php74-php-intl \
-ea-php74-php-litespeed \
-ea-php74-php-mbstring \
-ea-php74-php-mysqlnd \
-ea-php74-php-opcache \
-ea-php74-php-pdo \
-ea-php74-php-posix \
-ea-php74-php-soap \
-ea-php74-php-zip \
-ea-php74-runtime \
-ea-php74-php-bcmath \
-ea-php74-php-ioncube10 \
-ea-php74-php-xmlrpc \
-ea-php74-php-gettext \
-ea-php74-php-gmp \
-ea-php74-php-xml \
-ea-php74-php-imap \
-ea-php74-php-sodium \
-ea-php74-php-calendar \
 ea-php81 \
 ea-php81-pear \
 ea-php81-php-cli \
@@ -669,8 +611,6 @@ EOF
 /scripts/restartsrv_apache_php_fpm
 
 echo "Configurando Handlers..."
-whmapi1 php_set_handler version=ea-php73 handler=cgi
-whmapi1 php_set_handler version=ea-php74 handler=cgi
 whmapi1 php_set_handler version=ea-php81 handler=cgi
 whmapi1 php_set_handler version=ea-php82 handler=cgi
 whmapi1 php_set_handler version=ea-php83 handler=cgi
