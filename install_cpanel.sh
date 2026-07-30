@@ -872,6 +872,7 @@ echo "rolloutIntegrationPluginToExistingSites = false" >> /usr/local/cpanel/3rdp
 
 echo "Limpiando...."
 
+dnf remove cockpit -y
 rm -f /var/cpanel/nocloudlinux > /dev/null
 
 history -c
