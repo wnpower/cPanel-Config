@@ -44,6 +44,34 @@ echo "net.ipv6.conf.default.disable_ipv6 = 1 # Disable IPv6" >> /etc/sysctl.conf
 
 sysctl -p
 
+# Deshabilitar IPv6 en AL10 en Cloud Init
+cat <<EOF | sudo tee /etc/cloud/cloud.cfg.d/99-disable-ipv6-all.cfg
+network:
+  version: 2
+  ethernets:
+    all-interfaces:
+      match:
+        name: "*"
+      dhcp6: false
+      accept-ra: false
+EOF
+
+# Deshabilitar IPv6 en AL10 en la interfaz
+nmcli -g NAME connection show | while IFS= read -r conn; do
+  # Omitir loopback ('lo') y 'cloud-init all-interfaces'
+  if [[ "$conn" == "lo" || "$conn" == "cloud-init all-interfaces" ]]; then
+    continue
+  fi
+
+  echo "Deshabilitando IPv6 en: $conn"
+  nmcli connection modify "$conn" \
+    ipv6.addresses "" \
+    ipv6.gateway "" \
+    ipv6.method "disabled"
+
+  nmcli connection up "$conn"
+done
+
 echo "######### FIN CONFIGURANDO DNS Y RED ########"
 
 echo "####### DESACTIVANDO SELINUX #######"
