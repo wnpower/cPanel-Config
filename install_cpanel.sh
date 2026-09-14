@@ -898,6 +898,9 @@ sed -i '/rolloutIntegrationPluginToExistingSites.*/d' /usr/local/cpanel/3rdparty
 echo "installIntegrationPluginToNewSites = false" >> /usr/local/cpanel/3rdparty/wp-toolkit/var/etc/config.ini
 echo "rolloutIntegrationPluginToExistingSites = false" >> /usr/local/cpanel/3rdparty/wp-toolkit/var/etc/config.ini
 
+# Desactivar botón para cambiar a nuevo theme Meridian
+whmapi1 update_featurelist featurelist=disabled theme-switch=0
+
 echo "Limpiando...."
 
 dnf remove cockpit -y
